@@ -27,7 +27,7 @@ public class KojiScmDescriptor extends SCMDescriptor<KojiSCM> {
     }
 
     public DescriptorExtensionList<KojiXmlRpcApi, KojiXmlRpcApi.KojiXmlRpcApiDescriptor> getKojiXmlRpcApiDescriptorList() {
-        return Jenkins.getActiveInstance().<KojiXmlRpcApi, KojiXmlRpcApi.KojiXmlRpcApiDescriptor>getDescriptorList(KojiXmlRpcApi.class);
+        return Jenkins.get().<KojiXmlRpcApi, KojiXmlRpcApi.KojiXmlRpcApiDescriptor>getDescriptorList(KojiXmlRpcApi.class);
     }
 
     @Override
