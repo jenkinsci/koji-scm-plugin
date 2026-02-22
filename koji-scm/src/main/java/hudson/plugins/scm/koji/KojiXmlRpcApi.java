@@ -28,7 +28,7 @@ public abstract class KojiXmlRpcApi implements Describable<KojiXmlRpcApi>, Exten
     @SuppressWarnings("unchecked")
     @Override
     public Descriptor<KojiXmlRpcApi> getDescriptor() {
-        return Jenkins.getActiveInstance().getDescriptorOrDie(getClass());
+        return Jenkins.get().getDescriptorOrDie(getClass());
     }
 
     public static class KojiXmlRpcApiDescriptor extends Descriptor<KojiXmlRpcApi> {
@@ -50,7 +50,7 @@ public abstract class KojiXmlRpcApi implements Describable<KojiXmlRpcApi>, Exten
         }
 
         public DescriptorExtensionList<KojiXmlRpcApi, KojiXmlRpcApiDescriptor> getKojiXmlRpxApiDescriptors() {
-            return Jenkins.getActiveInstance().getDescriptorList(KojiXmlRpcApi.class);
+            return Jenkins.get().getDescriptorList(KojiXmlRpcApi.class);
         }
     }
 }

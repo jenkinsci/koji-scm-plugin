@@ -26,7 +26,7 @@ public class KojiBuildProvider implements Describable<KojiBuildProvider>, Serial
     @SuppressWarnings("unchecked")
     @Override
     public Descriptor<KojiBuildProvider> getDescriptor() {
-        return Jenkins.getActiveInstance().getDescriptorOrDie(getClass());
+        return Jenkins.get().getDescriptorOrDie(getClass());
     }
 
     public BuildProvider getBuildProvider() {
