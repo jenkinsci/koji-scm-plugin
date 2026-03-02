@@ -299,7 +299,7 @@ public class JenkinsJobTemplateBuilderTest {
                 "    <description/>\n" +
                 "    <keepDependencies>false</keepDependencies>\n" +
                 "    <properties/>\n" +
-                "    <scm class=\"hudson.plugins.scm.koji.KojiSCM\" plugin=\"jenkins-scm-koji-plugin@0.2-SNAPSHOT\">\n" +
+                "    <scm class=\"hudson.plugins.scm.koji.KojiSCM\" plugin=\"koji-scm@3.0\">\n" +
                 BUILD_PROVIDERS_TEMPLATE +
                 "        <kojiXmlRpcApi class=\"hudson.plugins.scm.koji.FakeKojiXmlRpcApi\">\n" +
                 "            <xmlRpcApiType>FAKE_KOJI</xmlRpcApiType>\n" +
@@ -388,7 +388,7 @@ public class JenkinsJobTemplateBuilderTest {
                 "    <description/>\n" +
                 "    <keepDependencies>false</keepDependencies>\n" +
                 "    <properties/>\n" +
-                "    <scm class=\"hudson.plugins.scm.koji.KojiSCM\" plugin=\"jenkins-scm-koji-plugin@0.2-SNAPSHOT\">\n" +
+                "    <scm class=\"hudson.plugins.scm.koji.KojiSCM\" plugin=\"koji-scm@3.0\">\n" +
                 BUILD_PROVIDERS_TEMPLATE +
                 "        <kojiXmlRpcApi class=\"hudson.plugins.scm.koji.FakeKojiXmlRpcApi\">\n" +
                 "            <xmlRpcApiType>FAKE_KOJI</xmlRpcApiType>\n" +
@@ -481,7 +481,7 @@ public class JenkinsJobTemplateBuilderTest {
                 "    <description/>\n" +
                 "    <keepDependencies>false</keepDependencies>\n" +
                 "    <properties/>\n" +
-                "    <scm class=\"hudson.plugins.scm.koji.KojiSCM\" plugin=\"jenkins-scm-koji-plugin@0.2-SNAPSHOT\">\n" +
+                "    <scm class=\"hudson.plugins.scm.koji.KojiSCM\" plugin=\"koji-scm@3.0\">\n" +
                 BUILD_PROVIDERS_TEMPLATE +
                 "        <kojiXmlRpcApi class=\"hudson.plugins.scm.koji.FakeKojiXmlRpcApi\">\n" +
                 "            <xmlRpcApiType>FAKE_KOJI</xmlRpcApiType>\n" +
@@ -582,7 +582,7 @@ public class JenkinsJobTemplateBuilderTest {
                 "    <description/>\n" +
                 "    <keepDependencies>false</keepDependencies>\n" +
                 "    <properties/>\n" +
-                "    <scm class=\"hudson.plugins.scm.koji.KojiSCM\" plugin=\"jenkins-scm-koji-plugin@0.2-SNAPSHOT\">\n" +
+                "    <scm class=\"hudson.plugins.scm.koji.KojiSCM\" plugin=\"koji-scm@3.0\">\n" +
                 BUILD_PROVIDERS_TEMPLATE +
                 "        <kojiXmlRpcApi class=\"hudson.plugins.scm.koji.FakeKojiXmlRpcApi\">\n" +
                 "            <xmlRpcApiType>FAKE_KOJI</xmlRpcApiType>\n" +
@@ -683,7 +683,7 @@ public class JenkinsJobTemplateBuilderTest {
                 "    <description/>\n" +
                 "    <keepDependencies>false</keepDependencies>\n" +
                 "    <properties/>\n" +
-                "    <scm class=\"hudson.plugins.scm.koji.KojiSCM\" plugin=\"jenkins-scm-koji-plugin@0.2-SNAPSHOT\">\n" +
+                "    <scm class=\"hudson.plugins.scm.koji.KojiSCM\" plugin=\"koji-scm@3.0\">\n" +
                 BUILD_PROVIDERS_TEMPLATE +
                 "        <kojiXmlRpcApi class=\"hudson.plugins.scm.koji.FakeKojiXmlRpcApi\">\n" +
                 "            <xmlRpcApiType>FAKE_KOJI</xmlRpcApiType>\n" +
@@ -787,7 +787,7 @@ public class JenkinsJobTemplateBuilderTest {
                 "    <description/>\n" +
                 "    <keepDependencies>false</keepDependencies>\n" +
                 "    <properties/>\n" +
-                "    <scm class=\"hudson.plugins.scm.koji.KojiSCM\" plugin=\"jenkins-scm-koji-plugin@0.2-SNAPSHOT\">\n" +
+                "    <scm class=\"hudson.plugins.scm.koji.KojiSCM\" plugin=\"koji-scm@3.0\">\n" +
                 BUILD_PROVIDERS_TEMPLATE +
                 "        <kojiXmlRpcApi class=\"hudson.plugins.scm.koji.FakeKojiXmlRpcApi\">\n" +
                 "            <xmlRpcApiType>FAKE_KOJI</xmlRpcApiType>\n" +
@@ -896,7 +896,7 @@ public class JenkinsJobTemplateBuilderTest {
                 "    <description/>\n" +
                 "    <keepDependencies>false</keepDependencies>\n" +
                 "    <properties/>\n" +
-                "    <scm class=\"hudson.plugins.scm.koji.KojiSCM\" plugin=\"jenkins-scm-koji-plugin@0.2-SNAPSHOT\">\n" +
+                "    <scm class=\"hudson.plugins.scm.koji.KojiSCM\" plugin=\"koji-scm@3.0\">\n" +
                 BUILD_PROVIDERS_TEMPLATE +
                 "        <kojiXmlRpcApi class=\"hudson.plugins.scm.koji.FakeKojiXmlRpcApi\">\n" +
                 "            <xmlRpcApiType>FAKE_KOJI</xmlRpcApiType>\n" +
@@ -1109,7 +1109,7 @@ public class JenkinsJobTemplateBuilderTest {
                         "    <description/>\n" +
                         "    <keepDependencies>false</keepDependencies>\n" +
                         "    <properties/>\n" +
-                        "    <scm class=\"hudson.plugins.scm.koji.KojiSCM\" plugin=\"jenkins-scm-koji-plugin@0.2-SNAPSHOT\">\n" +
+                        "    <scm class=\"hudson.plugins.scm.koji.KojiSCM\" plugin=\"koji-scm@3.0\">\n" +
                         BUILD_PROVIDERS_TEMPLATE +
                         "        <kojiXmlRpcApi class=\"hudson.plugins.scm.koji.RealKojiXmlRpcApi\">\n" +
                         "            <xmlRpcApiType>REAL_KOJI</xmlRpcApiType>\n" +

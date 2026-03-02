@@ -3,7 +3,7 @@
     <description/>
     <keepDependencies>false</keepDependencies>
     <properties/>
-    <scm class="hudson.plugins.scm.koji.KojiSCM" plugin="jenkins-scm-koji-plugin@0.2-SNAPSHOT">
+    <scm class="hudson.plugins.scm.koji.KojiSCM" plugin="koji-scm@3.0">
         %{BUILD_PROVIDERS}
         %{XML_RPC_API}
         <downloadDir>rpms</downloadDir>
