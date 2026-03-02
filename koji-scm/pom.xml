@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.jenkins.plugins</groupId>
         <artifactId>koji-scm-parent</artifactId>
-        <version>3.0</version>
+        <version>3.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>koji-scm</artifactId>
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>io.jenkins.plugins</groupId>
             <artifactId>koji-scm-lib</artifactId>
-            <version>3.0</version>
+            <version>3.1-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>jakarta.xml.bind</groupId>
@@ -86,7 +86,7 @@
         <dependency>
             <groupId>io.jenkins.plugins</groupId>
             <artifactId>fake-koji</artifactId>
-            <version>3.0</version>
+            <version>3.1-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
         <!--
@@ -96,7 +96,7 @@
         <dependency>
             <groupId>io.jenkins.plugins</groupId>
             <artifactId>fake-koji</artifactId>
-            <version>3.0</version>
+            <version>3.1-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
