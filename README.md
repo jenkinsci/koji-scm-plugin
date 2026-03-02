@@ -280,4 +280,12 @@ This is the frontend of fake Koji. Here you can see the latest successful builds
 * Project/Repository management
 * Implementation of HTTPS
 * JSON API
-* New frontend (Angular app)
+
+## Releasing
+This plugin is multimodule lib, plugin and external service. Thus the autorelease do not work as expected. To release, you have to cd `koji-scm` submodule which contans koji-scm-plugin artifactId and here run manually `JAVA_TOOL_OPTIONS="-Dmaven.test.skip=true" mvn release:prepare` and `JAVA_TOOL_OPTIONS="-Dmaven.test.skip=true" mvn  release:perform`. During preapare, always adjsut all modules, not jsut dependent ones (choice of 0). The skipped tests expected you toi test it properly before, as there are some lenghty ones. The `JAVA_TOOL_OPTIONS is used to workaround the forked processes.
+
+Sometimes, you may need to "fake" the build bit, and to change project version to future not-snapshot one (the upcoming release), and future snapshot-one, so they are in local m2 repos. then revert the change, and proceed as described above.
+
+Note that only plugin goes to official repos. Include the services and other artfacts on github release page, after tag is done.
+
+After release, you may need to fix your poms. Verify that all pom.xml files have correct version and are sane
