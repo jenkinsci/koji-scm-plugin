@@ -288,4 +288,4 @@ Sometimes, you may need to "fake" the build bit, and to change project version t
 
 Note that only plugin goes to official repos. Include the services and other artfacts on github release page, after tag is done.
 
-After release, you may need to fix your poms. Verify that all pom.xml files have correct version and are sane
+After release, you may need to fix your poms. Verify that all pom.xml files have correct version and are sane (eg: https://github.com/jenkinsci/koji-scm-plugin/commit/668512eaf998537f29587f8c7bdc7ec91a0d9e96 , but can be muhc worse)
