@@ -11,6 +11,7 @@
     <packaging>hpi</packaging>
 
     <name>Jenkins SCM Koji Plugin</name>
+    <url>https://github.com/jenkinsci/koji-scm-plugin</url>
 
     <properties>
 <enforcer.skip>true</enforcer.skip> <!-- koji requires javalin whih requires servlet api -->
