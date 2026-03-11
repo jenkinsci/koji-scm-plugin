@@ -21,13 +21,13 @@
         </license>
     </licenses>
 
-    <url>https://github.com/jenkinsci/${project.artifactId}</url>
+    <url>https://github.com/jenkinsci/koji-scm-plugin</url>
     <scm child.scm.connection.inherit.append.path="false"
          child.scm.developerConnection.inherit.append.path="false"
          child.scm.url.inherit.append.path="false">
         <connection>scm:git:https://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
-        <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
+        <url>https://github.com/jenkinsci/koji-scm-plugin</url>
     </scm>
 
     <modules>
