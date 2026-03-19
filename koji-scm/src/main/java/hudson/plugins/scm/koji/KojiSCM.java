@@ -153,12 +153,23 @@ public class KojiSCM extends SCM implements LoggerHelp, Serializable {
         currentListener = listener;
         log("{}", this);
         log("Checking out remote revision");
+
+        // Re-validate that build hasn't been processed by another concurrent job
+        File checkoutBuildFile = new File(run.getParent().getRootDir(), BUILD_XML);
+        final Build storedBuild = new BuildsSerializer().read(checkoutBuildFile);
+        if (storedBuild != null && !storedBuild.isManual()) {
+            Predicate<String> currentPredicate = createNotProcessedNvrPredicate(run.getParent());
+            if (!currentPredicate.test(storedBuild.getNvr())) {
+                log("Build {} already in processed.txt, skipping checkout", storedBuild.getNvr());
+                listener.getLogger().println("Build " + storedBuild.getNvr() + " already processed by another job.");
+                return; // Hopefully exit gracefully - not an failed build
+            }
+        }
+
         if (baseline != null && !(baseline instanceof KojiRevisionState)) {
             throw new RuntimeException("Expected instance of KojiRevisionState, got: " + baseline);
         }
 
-        File checkoutBuildFile = new File(run.getParent().getRootDir(), BUILD_XML);
-        final Build storedBuild = new BuildsSerializer().read(checkoutBuildFile);
         KojiBuildDownloader downloadWorker = new KojiBuildDownloader(
                 iterableToList(kojiBuildProviders),
                 kojiXmlRpcApi,
@@ -198,6 +209,14 @@ public class KojiSCM extends SCM implements LoggerHelp, Serializable {
             log("Saving the nvr of checked out build to history: {} >> {}", build.getNvr(), PROCESSED_BUILDS_HISTORY);
             appendBuildNvrToProcessed(new File(run.getParent().getRootDir(), PROCESSED_BUILDS_HISTORY), build);
         }
+
+        // Clean up build.xml after successful checkout to prevent re-processing
+        File buildXmlFile = new File(run.getParent().getRootDir(), BUILD_XML);
+        if (buildXmlFile.exists()) {
+            log("Removing build.xml after successful checkout");
+            buildXmlFile.delete();
+        } //Really delete? But ok, lets be more strict for now.
+
         // if there is a changelog file - write it:
         if (changelogFile != null) {
             log("Saving the build info to changelog file: {}", changelogFile.getAbsolutePath());
@@ -264,6 +283,14 @@ public class KojiSCM extends SCM implements LoggerHelp, Serializable {
         if (build != null) {
             log("Got new remote build: " + build);
             storeBuild(build, project.getRootDir());
+
+            // Write to processed.txt immediately to prevent concurrent polls from finding same build
+            if (!build.isManual()) {
+                log("Marking build as processed during polling: {} >> {}", build.getNvr(), PROCESSED_BUILDS_HISTORY);
+                File processedFile = new File(project.getRootDir(), PROCESSED_BUILDS_HISTORY);
+                appendBuildNvrToProcessed(processedFile, build);
+            }
+
             return new PollingResult(baseline, new KojiRevisionState(build), PollingResult.Change.INCOMPARABLE);
         }
         // if we are still here - no remote changes:
