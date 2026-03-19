@@ -210,12 +210,12 @@ public class KojiSCM extends SCM implements LoggerHelp, Serializable {
             appendBuildNvrToProcessed(new File(run.getParent().getRootDir(), PROCESSED_BUILDS_HISTORY), build);
         }
 
-        // Clean up build.xml after successful checkout to prevent re-processing
-        File buildXmlFile = new File(run.getParent().getRootDir(), BUILD_XML);
-        if (buildXmlFile.exists()) {
-            log("Removing build.xml after successful checkout");
-            buildXmlFile.delete();
-        } //Really delete? But ok, lets be more strict for now.
+//        // Clean up build.xml after successful checkout to prevent re-processing?
+//        File buildXmlFile = new File(run.getParent().getRootDir(), BUILD_XML);
+//        if (buildXmlFile.exists()) {
+//            log("Removing build.xml after successful checkout");
+//            buildXmlFile.delete();
+//        } //Really delete? But ok, lets be more strict for now.
 
         // if there is a changelog file - write it:
         if (changelogFile != null) {
