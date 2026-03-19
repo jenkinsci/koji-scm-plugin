@@ -284,12 +284,14 @@ public class KojiSCM extends SCM implements LoggerHelp, Serializable {
             log("Got new remote build: " + build);
             storeBuild(build, project.getRootDir());
 
-            // Write to processed.txt immediately to prevent concurrent polls from finding same build
-            if (!build.isManual()) {
-                log("Marking build as processed during polling: {} >> {}", build.getNvr(), PROCESSED_BUILDS_HISTORY);
-                File processedFile = new File(project.getRootDir(), PROCESSED_BUILDS_HISTORY);
-                appendBuildNvrToProcessed(processedFile, build);
-            }
+            // This hunk is probably safest solution, but have issue:
+            // If the queue crashes, the build is save in processed.txt and wil never we run again
+//            // Write to processed.txt immediately to prevent concurrent polls from finding same build
+//            if (!build.isManual()) {
+//                log("Marking build as processed during polling: {} >> {}", build.getNvr(), PROCESSED_BUILDS_HISTORY);
+//                File processedFile = new File(project.getRootDir(), PROCESSED_BUILDS_HISTORY);
+//                appendBuildNvrToProcessed(processedFile, build);
+//            }
 
             return new PollingResult(baseline, new KojiRevisionState(build), PollingResult.Change.INCOMPARABLE);
         }
