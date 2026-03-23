@@ -153,12 +153,24 @@ public class KojiSCM extends SCM implements LoggerHelp, Serializable {
         currentListener = listener;
         log("{}", this);
         log("Checking out remote revision");
+
+        File checkoutBuildFile = new File(run.getParent().getRootDir(), BUILD_XML);
+        final Build storedBuild = new BuildsSerializer().read(checkoutBuildFile);
+
+        if (DESCRIPTOR.getKojiSCMConfig_checkOnCheckout()) {
+            if (storedBuild != null && !storedBuild.isManual()) {
+                Predicate<String> currentPredicate = createNotProcessedNvrPredicate(run.getParent());
+                if (!currentPredicate.test(storedBuild.getNvr())) {
+                    log("Build " + storedBuild.getNvr() + " already processed by another job. Skipping checkout of " + run.getParent().getName());
+                    listener.getLogger().println("Build " + storedBuild.getNvr() + " already processed by another job. . Skipping checkout"  + run.getParent().getName());
+                    return;
+                }
+            }
+        }
         if (baseline != null && !(baseline instanceof KojiRevisionState)) {
             throw new RuntimeException("Expected instance of KojiRevisionState, got: " + baseline);
         }
 
-        File checkoutBuildFile = new File(run.getParent().getRootDir(), BUILD_XML);
-        final Build storedBuild = new BuildsSerializer().read(checkoutBuildFile);
         KojiBuildDownloader downloadWorker = new KojiBuildDownloader(
                 iterableToList(kojiBuildProviders),
                 kojiXmlRpcApi,
@@ -236,6 +248,19 @@ public class KojiSCM extends SCM implements LoggerHelp, Serializable {
             throw new RuntimeException("Expected instance of KojiRevisionState, got: " + baseline);
         }
 
+        if (DESCRIPTOR.getKojiSCMConfig_checkOnCheckout()) {
+            File checkoutBuildFile = new File(project.getRootDir(), BUILD_XML);
+            final Build storedBuild = new BuildsSerializer().read(checkoutBuildFile);
+            if (storedBuild != null && !storedBuild.isManual()) {
+                Predicate<String> currentPredicate = createNotProcessedNvrPredicate(project);
+                if (!currentPredicate.test(storedBuild.getNvr())) {
+                    log("Build " + storedBuild.getNvr() + " already processed by another job. Skipping compareRemoteRevisionWith of " + project.getName());
+                    listener.getLogger().println("Build " + storedBuild.getNvr() + " already processed by another job. . Skipping compareRemoteRevisionWith"  + project.getName());
+                    return new PollingResult(baseline, null, PollingResult.Change.NONE);
+                }
+            }
+        }
+
         KojiListBuilds worker = new KojiListBuilds(iterableToList(kojiBuildProviders), kojiXmlRpcApi, createNotProcessedNvrPredicate(project), maxPreviousBuilds, this);
         final Build build;
         if (!DESCRIPTOR.getKojiSCMConfig_requireWorkspace()) {
@@ -283,6 +308,20 @@ public class KojiSCM extends SCM implements LoggerHelp, Serializable {
     @SuppressWarnings("UseSpecificCatch")
     public SCMRevisionState calcRevisionsFromBuild(Run<?, ?> run, FilePath workspace, Launcher launcher, TaskListener listener) throws IOException, InterruptedException {
         currentListener = listener;
+
+        if (DESCRIPTOR.getKojiSCMConfig_checkOnCheckout()) {
+            File checkoutBuildFile = new File(run.getParent().getRootDir(), BUILD_XML);
+            final Build storedBuild = new BuildsSerializer().read(checkoutBuildFile);
+            if (storedBuild != null && !storedBuild.isManual()) {
+                Predicate<String> currentPredicate = createNotProcessedNvrPredicate(run.getParent());
+                if (!currentPredicate.test(storedBuild.getNvr())) {
+                    log("Build " + storedBuild.getNvr() + " already processed by another job. Skipping calcRevisionsFromBuild of " + run.getParent().getName());
+                    listener.getLogger().println("Build " + storedBuild.getNvr() + " already processed by another job. . Skipping calcRevisionsFromBuild"  + run.getParent().getName());
+                    return new KojiRevisionState(null);  // Hopefully exit gracefully - not as failed build
+                }
+            }
+        }
+
         log("Calculating revision for project '{}' from build: {}", run.getParent().getName(), run.getNumber());
         KojiRevisionFromBuild worker = new KojiRevisionFromBuild();
         FilePath buildWorkspace = new FilePath(run.getRootDir());
