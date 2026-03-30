@@ -1077,5 +1077,54 @@ public class KojiListBuildsTest {
         );
         testListMatchingBuildsCustom(temporaryFolder, worker);
     }
+
+    @Test
+    public void ubi10jdk21jdk(@TempDir Path temporaryFolder, @TempDir Path rtmp) throws Exception {
+        assumeTrue(onRhNet);
+        RealKojiXmlRpcApi description = new RealKojiXmlRpcApi(
+                "openjdk-21-ubi10-container",
+                "x86_64",
+                "(supp-|)rhel-10\\.1.*-z-.* rhaos-.*-rhel-10-container-candidate epel10.* el10-openjdk java-openjdk-rhel-10-build",
+                ".*-debuginfo-.* .*-debugsource-.* .*src.zip  .*-jmods-.* .*static-libs.* .*demo.* .*win.debuginfo.* .*-jre-.*windows.* .*win.jre.* .*jre.win.* .*-portable(-rhel7)?-[b\\d\\.\\-ea(aarch64removal)(rolling)]{3,}(el|fc).* .*-portable(-rhel7)?-fastdebug-[b\\d\\.\\-ea(aarch64removal)(rolling)]{3,}(el|fc).* .*-portable(-rhel7)?-slowdebug-[b\\d\\.\\-ea(aarch64removal)(rolling)]{3,}(el|fc).*",
+                ""
+        );
+        KojiListBuilds worker = new KojiListBuilds(
+                createHydraOnlyList(),
+                description,
+                new NotProcessedNvrPredicate(new ArrayList<>()),
+                10
+        );
+        File ff = rtmp.toFile();
+        Build build = worker.invoke(temporaryFolder.toFile(), null);
+        Assertions.assertTrue(build != null);
+        File target = File.createTempFile("fakeKoji", "testDir");
+        target.delete();
+        target.mkdir();
+        KojiBuildDownloader dwldr = new KojiBuildDownloader(
+                Collections.singletonList(createHydraKojiBuildProvider()),
+                description,new NotProcessedNvrPredicate(new ArrayList<>()),
+                build,target.getAbsolutePath(),
+                10,
+                false,
+                false);
+//        List l = dwldr.downloadRPMs(target.getAbsoluteFile(), build, description);
+//        Assertions.assertTrue(l.size() == 1);
+        dwldr.invoke(ff, null);
+        final boolean[] found  = new boolean[]{false};
+        final List<Path> rpms  = new ArrayList<>();
+        try (Stream<Path> stream = Files.walk(ff.toPath())) {
+            stream.filter(Files::isRegularFile)
+                    .forEach(path -> {
+                        if (path.endsWith("metadata.file.1.json")){
+                            found[0] = true;
+                        }
+                        if (path.toString().endsWith(".rpm")){
+                            rpms.add(path);
+                        }
+                    });
+        }
+        Assertions.assertTrue(found[0]);
+
+    }
 }
 

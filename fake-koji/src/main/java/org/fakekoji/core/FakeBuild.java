@@ -198,6 +198,14 @@ public class FakeBuild {
         return arches;
     }
 
+
+    static <T> T[] concatWithArrayCopy(T[] array1, T[] array2) {
+        T[] result = Arrays.copyOf(array1, array1.length + array2.length);
+        System.arraycopy(array2, 0, result, array1.length, array2.length);
+        return result;
+    }
+
+
     /**
      * This method is crucial for fake koji and its cooperation with
      * scm-koji-plugin.
@@ -223,7 +231,6 @@ public class FakeBuild {
         if (set!=null && set.length>0) {
             return set;
         }
-        //TODO build have some additinal tags to be added
         String[] base = getManualTags("additionalTags");
         //TODO build have some unwanted tags to be removed
         String[] filter = getManualTags("removedTags");
@@ -232,11 +239,11 @@ public class FakeBuild {
             if (name.contains("openjdk")) {
                 if (file.getName().toLowerCase().contains("portable")) {
                     if (file.getName().toLowerCase().contains("el8")) {
-                        return new String[]{"java-openjdk-rhel-8-build"};
+                        return concatWithArrayCopy(base, new String[]{"java-openjdk-rhel-8-build"});
                     } else if (file.getName().toLowerCase().contains("el7")) {
-                        return new String[]{"openjdk-portable-rhel-7-candidate"};
+                        return concatWithArrayCopy(base, new String[]{"openjdk-portable-rhel-7-candidate"});
                     } else {
-                        return new String[]{"openjdk-portable-rhel-6-candidate"};
+                        return concatWithArrayCopy(base, new String[]{"openjdk-portable-rhel-6-candidate"});
                     }
                 }
             }
@@ -247,50 +254,50 @@ public class FakeBuild {
             if (name.endsWith("openjdk") || name.startsWith("openjdk")) {
                 //currently we have static only for linux
                 if (file.getName().toLowerCase().contains("static") || release.toLowerCase().contains("upstream")) {
-                    return prefixIfNecessary(connect(TagsProvider.getFedoraTags(), TagsProvider.getRHELtags(), TagsProvider.getRhelTags(), TagsProvider.getWinTags()));
+                    return concatWithArrayCopy(base, prefixIfNecessary(connect(TagsProvider.getFedoraTags(), TagsProvider.getRHELtags(), TagsProvider.getRhelTags(), TagsProvider.getWinTags())));
                 }
                 if (release.contains("el")) {
                     int osVersion = determineRhOs(release);
-                    return prefixIfNecessary(new String[]{
+                    return concatWithArrayCopy(base, prefixIfNecessary(new String[]{
                             TagsProvider.getRhel5Rhel6Base(osVersion),
-                            TagsProvider.getRhel7Base(osVersion, TagsProvider.isZet(release))});
+                            TagsProvider.getRhel7Base(osVersion, TagsProvider.isZet(release))}));
                 }
                 if (release.contains("fc")) {
                     int osVersion = determineRhOs(release);
-                    return prefixIfNecessary(new String[]{
+                    return concatWithArrayCopy(base, prefixIfNecessary(new String[]{
                             TagsProvider.getFedoraBase(osVersion)
-                    });
+                    }));
                 }
                 if (file.getName().toLowerCase().contains("win") && file.getParentFile().getName().toLowerCase().contains("win")) {
-                    return prefixIfNecessary(TagsProvider.getWinTags());
+                    return concatWithArrayCopy(base, prefixIfNecessary(TagsProvider.getWinTags()));
                 }
             } else
             //oracle and ibm are far from being done. But at least start is sumarised there
             if (name.endsWith("oracle")) {
                 //currently we have static only for linux
                 if (file.getName().toLowerCase().contains("static") || release.contains("upstream")) {
-                    return prefixIfNecessary(connect(TagsProvider.getOracleTags()));
+                    return concatWithArrayCopy(base, prefixIfNecessary(connect(TagsProvider.getOracleTags())));
                 }
             } else 
             if (name.endsWith("ibm")) {
                 //currently we have static only for linux
                 if (file.getName().toLowerCase().contains("static") || release.contains("upstream")) {
-                    return prefixIfNecessary(connect(TagsProvider.getSuplementaryRhel5LikeTag(), TagsProvider.getSuplementaryRhel6LikeTag(), TagsProvider.getSuplementaryRhel7LikeTag()));
+                    return concatWithArrayCopy(base, prefixIfNecessary(connect(TagsProvider.getSuplementaryRhel5LikeTag(), TagsProvider.getSuplementaryRhel6LikeTag(), TagsProvider.getSuplementaryRhel7LikeTag())));
                 } else {
                     if (release.contains("el")) {
                         int osVersion = determineRhOs(release);
-                        return prefixIfNecessary(new String[]{
+                        return concatWithArrayCopy(base, prefixIfNecessary(new String[]{
                                 TagsProvider.getRhel5Rhel6Base(osVersion),
-                                TagsProvider.getRhel7Base(osVersion, TagsProvider.isZet(release))});
+                                TagsProvider.getRhel7Base(osVersion, TagsProvider.isZet(release))}));
                     }
                 }
             } else {
                 if (file.getName().toLowerCase().contains("static") || file.getName().toLowerCase().contains("upstream")) {
-                    return prefixIfNecessary(connect(TagsProvider.getFedoraTags(), TagsProvider.getRHELtags(), TagsProvider.getRhelTags(), TagsProvider.getWinTags()));
+                    return concatWithArrayCopy(base, prefixIfNecessary(connect(TagsProvider.getFedoraTags(), TagsProvider.getRHELtags(), TagsProvider.getRhelTags(), TagsProvider.getWinTags())));
                 }
             }
         }
-        return new String[]{"fakeKojiNoTagFound"};
+        return concatWithArrayCopy(base, new String[]{"fakeKojiNoTagFound"});
     }
 
     /**

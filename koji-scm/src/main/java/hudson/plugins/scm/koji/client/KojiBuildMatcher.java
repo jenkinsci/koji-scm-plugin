@@ -240,7 +240,7 @@ class KojiBuildMatcher extends BuildMatcher {
     }
 
     public static boolean isRpmContainer(RPM rpm) {
-        return rpm.getName().contains("container") && rpm.getFilename("").contains("docker-image");
+        return rpm.getName().contains("container") && (rpm.getFilename("").contains("docker-image") || rpm.getFilename("").contains("docker.image") );
     }
 
     public static boolean isBuildContainer(Build b) {
