@@ -1,2 +1,4 @@
-# https://www.robotstxt.org/robotstxt.html
+# Block all web crawlers from indexing this site
+# This is an internal configuration management tool
 User-agent: *
+Disallow: /
