@@ -316,14 +316,10 @@ public class JenkinsJobUpdater implements JobUpdater {
             if (!jobDir.mkdir()) {
                 throw new IOException("Could't create file: " + jobDir.getAbsolutePath());
             }
-            final String jobDirPath = jobDir.getAbsolutePath();
-            LOGGER.info("Creating file " + JENKINS_JOB_CONFIG_FILE + " in " + jobDirPath);
+            LOGGER.info("Creating file " + JENKINS_JOB_CONFIG_FILE + " in " + jobDir.getAbsolutePath());
             return new PrimaryExceptionThrower<JobUpdateResult>(
                     () -> {
-                        Utils.writeToFile(
-                                Paths.get(jobDirPath, JENKINS_JOB_CONFIG_FILE),
-                                job.generateTemplate()
-                        );
+                        writeJobConfigs(jobDir, job);
                     }, () -> {
                 createManuallyUploadedJob(jobName);
             }, new JobUpdateResult(jobName, true)).call();
@@ -340,11 +336,9 @@ public class JenkinsJobUpdater implements JobUpdater {
             return new PrimaryExceptionThrower<JobUpdateResult>(
                     () -> {
                         Utils.moveDirByConfig(src, dst);
-                        //regenerate conig
+                        //regenerate config
                         LOGGER.info("recreating file " + JENKINS_JOB_CONFIG_FILE + " in " + dst);
-                        Utils.writeToFile(
-                                Paths.get(dst.getAbsolutePath(), JENKINS_JOB_CONFIG_FILE),
-                                job.generateTemplate());
+                        writeJobConfigs(dst, job);
                     }, () -> {
                 createManuallyUploadedJob(jobName);
             }, new JobUpdateResult(jobName, true)).call();
@@ -368,12 +362,13 @@ public class JenkinsJobUpdater implements JobUpdater {
     private JobUpdateFunction<Job> getRewriteFunction() {
         return job -> {
             final String jobName = job.toString();
-            final File jobConfig = Paths.get(jenkinsJobsRoot.getAbsolutePath(), jobName, JENKINS_JOB_CONFIG_FILE).toFile();
+            final File jobDir = Paths.get(jenkinsJobsRoot.getAbsolutePath(), jobName).toFile();
+            final File jobConfig = Paths.get(jobDir.getAbsolutePath(), JENKINS_JOB_CONFIG_FILE).toFile();
             LOGGER.info("Rewriting job " + jobName);
             LOGGER.info("Writing to file " + jobConfig.getAbsolutePath());
             return new PrimaryExceptionThrower<JobUpdateResult>(
                     () -> {
-                        Utils.writeToFile(jobConfig, job.generateTemplate());
+                        writeJobConfigs(jobDir, job);
                     }, () -> {
                 updateManuallyUpdatedJob(jobName);
             }, new JobUpdateResult(jobName, true)).call();
@@ -477,16 +472,17 @@ public class JenkinsJobUpdater implements JobUpdater {
         }
     }
 
+    private void writeJobConfigs(final File jobDir, final Job job) throws IOException {
+        final File configFile = Paths.get(jobDir.getAbsolutePath(), JENKINS_JOB_CONFIG_FILE).toFile();
+        Utils.writeToFile(configFile, job.generateTemplate());
+    }
+
     private Result<Void, String> updateJenkinsJob(final Job job) {
         final String jobName = job.getName();
         LOGGER.info("Rewriting config of " + jobName);
-        final File jobConfigFile = Paths.get(
-                jenkinsJobsRoot.getAbsolutePath(),
-                jobName,
-                JENKINS_JOB_CONFIG_FILE
-        ).toFile();
+        final File jobDir = Paths.get(jenkinsJobsRoot.getAbsolutePath(), jobName).toFile();
         try {
-            Utils.writeToFile(jobConfigFile, job.generateTemplate());
+            writeJobConfigs(jobDir, job);
             return Result.ok(null);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, e.getMessage(), e);
