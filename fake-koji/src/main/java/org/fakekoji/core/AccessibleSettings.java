@@ -67,6 +67,7 @@ public class AccessibleSettings {
     private final File jenkinsJobsRoot;
     private final File jenkinsJobArchiveRoot;
     private final File scriptsRoot;
+    private final File jenkinsfilesRoot;
 
     private final URL jenkins;
     private final String jenkinsSshHost;
@@ -95,6 +96,7 @@ public class AccessibleSettings {
             File jenkinsJobsRoot,
             File jenkinsJobArchiveRoot,
             File scriptsRoot,
+            File jenkinsfilesRoot,
             final URL jenkins,
             String jenkinsSshHost,
             Integer jenkinsSshPort,
@@ -115,6 +117,7 @@ public class AccessibleSettings {
         this.jenkinsJobsRoot = jenkinsJobsRoot;
         this.jenkinsJobArchiveRoot = jenkinsJobArchiveRoot;
         this.scriptsRoot = scriptsRoot;
+        this.jenkinsfilesRoot = jenkinsfilesRoot;
         this.jenkins = jenkins;
         this.jenkinsSshHost = jenkinsSshHost;
         this.jenkinsSshPort = jenkinsSshPort;
@@ -176,6 +179,11 @@ public class AccessibleSettings {
     public File getScriptsRoot() {
         warn(scriptsRoot, "scriptsRoot");
         return scriptsRoot;
+    }
+
+    public File getJenkinsfilesRoot() {
+        warn(jenkinsfilesRoot, "jenkinsfilesRoot");
+        return jenkinsfilesRoot;
     }
 
     public Integer getJenkinsSshPort() {
