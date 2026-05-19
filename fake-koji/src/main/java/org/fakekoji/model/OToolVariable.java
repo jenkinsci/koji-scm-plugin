@@ -112,7 +112,7 @@ public class OToolVariable {
 
     public String getVariableString(final String terminal) {
         final String name = getFullName();
-        if (terminal == null || terminal.isEmpty()) {
+        if (terminal == null) {
             if (isCommentedOut()) {
                 return "";
             } else {

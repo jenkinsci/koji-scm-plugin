@@ -4,7 +4,7 @@ properties([
         string(name: 'executionId', defaultValue: UUID.randomUUID().toString(), description: 'Unique execution ID'),
 //build platfrom is missing, Later? Parameter? Hardcoded? Inc triggering commit?
 //run platform
-        string(name: 'ebcShortlist', defaultValue: 'rh-openjdk-qe-rhel9-jenkins_medium.yml',
+        string(name: 'ebcShortlist', defaultValue: '%{RUN_PLATFORM_YML}', /*eg rh-openjdk-qe-rhel9-jenkins_medium.yml*/
                description: 'This controls the EBC shortlist to use when provisioning a Jenkins node.'),
 //hardcoded
         string(name: 'ecosystemTracking', defaultValue: "",
@@ -14,14 +14,14 @@ properties([
 //hardcoded
         string(name: 'JENKINS_JOBS_ORG', defaultValue: 'cognitive-software-delivery', description: 'GitHub Org of Jenkins jobs to use for scripts execution'),
 //generated, but hardcoded
-        string(name: 'TEST_SUITE_BRANCH', defaultValue: 'main', description: 'Branch to test'),
+        string(name: 'TEST_SUITE_BRANCH', defaultValue: '%{TEST_SUITE_BRANCH}'/*eg main*/, description: 'Branch to test'),
 //generated
         string(name: 'TEST_SUITE_URL',
-               defaultValue: 'https://github.com/rh-openjdk/TestHeadlessComponents.git',
+               defaultValue: '%{TEST_SUITE_URL}', /*eg https://github.com/rh-openjdk/TestHeadlessComponents.git*/
                description: 'URL to download for prepared suites'),
 //there should be OTOOL_VARS?
         string(name: 'TEST_COMMAND',
-               defaultValue: 'export TEST_JDK_HOME=/usr/lib/jvm/java-17-openjdk JAVA_TO_TEST=/usr/lib/jvm/java-17-openjdk/bin/java OJDK_VERSION_NUMBER=17 JREJDK=jdk TMPRESULTS=tmpresults ; bash testHeadlessComponents.sh ; ls',
+               defaultValue: '%{EXPORTED_VARIABLES_SINGLELINE} export TEST_JDK_HOME=/usr/lib/jvm/java-17-openjdk JAVA_TO_TEST=/usr/lib/jvm/java-17-openjdk/bin/java OJDK_VERSION_NUMBER=17 JREJDK=jdk TMPRESULTS=tmpresults ; %{TASK_SCRIPT} ; ls', //eg  bash testHeadlessComponents.sh
                description: 'Test command to execute on the target machine'),
 //eg cleanAndInstallRpms
 //lets stay with dnf isntall for now
