@@ -1,6 +1,7 @@
 package org.fakekoji.jobmanager.model;
 
 import org.fakekoji.jobmanager.JenkinsJobTemplateBuilder;
+import org.fakekoji.jobmanager.JenkinsfileTemplateBuilder;
 import org.fakekoji.model.BuildProvider;
 import org.fakekoji.model.JDKVersion;
 import org.fakekoji.model.OToolVariable;
@@ -157,7 +158,16 @@ public class TestJob extends TaskJob {
 
     @Override
     public String generateJenkinsfile() throws IOException {
-        return loadTemplate(JENKINSFILE_JOB_TEMPLATE);
+        return new JenkinsfileTemplateBuilder(loadTemplate(JENKINSFILE_JOB_TEMPLATE), this).expandAll(
+                        getBuildProviders(),
+                        getProjectName(),
+                        getBuildVariants(),
+                        fillBuildPlatform(getBuildPlatform(), getTask().getFileRequirements()),
+                        getTask(),
+                        getPlatformProvider(),
+                        getPlatform(),
+                        getScriptsRoot(),
+                        getExportedVariables());
     }
 
     @Override
