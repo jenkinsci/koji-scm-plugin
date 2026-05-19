@@ -410,7 +410,7 @@ public class JenkinsJobTemplateBuilder {
         return getExportedVariablesString(exportedVariables, XML_NEW_LINE);
     }
 
-    private static  String getExportedVariablesString(final List<OToolVariable> exportedVariables, String terminal) {
+    static  String getExportedVariablesString(final List<OToolVariable> exportedVariables, String terminal) {
         return exportedVariables
                 .stream()
                 .map(var -> var.getVariableString(terminal))
