@@ -61,7 +61,7 @@ public abstract class Job implements NamesProvider {
     }
 
     public abstract String generateTemplate() throws IOException;
-    //public abstract String generateJenkinsfile() throws IOException;
+    public abstract String generateJenkinsfile() throws IOException;
 
     @Override
     public boolean equals(Object o) {
