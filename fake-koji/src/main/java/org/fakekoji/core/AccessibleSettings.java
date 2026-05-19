@@ -139,7 +139,8 @@ public class AccessibleSettings {
                 configManager,
                 jdkProjectParser,
                 jenkinsJobsRoot,
-                jenkinsJobArchiveRoot
+                jenkinsJobArchiveRoot,
+                jenkinsfilesRoot
         );
         this.projectMapping = new ProjectMapping(this);
         this.reportParams = reportParams;

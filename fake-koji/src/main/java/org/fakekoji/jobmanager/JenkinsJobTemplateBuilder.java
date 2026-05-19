@@ -475,6 +475,7 @@ public class JenkinsJobTemplateBuilder {
         PLAINSHELL_SCRIPT_TEMPLATE("shell-script"),
         TIMEOUTSHELL_SCRIPT_TEMPLATE("timeoutedshell-script"),
         TASK_JOB_TEMPLATE("task-job"),
+        JENKINSFILE_JOB_TEMPLATE("task-jenkinsfile", ".jenkinsfile"),
         TRIGGER("trigger"),
         POST_BUILD_TASK_PLUGIN("post-build-task-plugin"),
         POST_BUILD_TASK_PLUGIN_ANALYSE("post-build-task-plugin-analyse"),
@@ -488,7 +489,11 @@ public class JenkinsJobTemplateBuilder {
         private final String value;
 
         JenkinsTemplate(final String template) {
-            this.value = Paths.get(JENKINS_TEMPLATES, template + ".xml").toString();
+            this(template,".xml");
+        }
+
+        JenkinsTemplate(final String template, String suffix) {
+            this.value = Paths.get(JENKINS_TEMPLATES, template + suffix).toString();
         }
 
         public String getValue() {
