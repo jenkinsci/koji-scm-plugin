@@ -42,6 +42,11 @@ public class PullJob extends Job {
     }
 
     @Override
+    public String generateJenkinsfile() throws IOException {
+        return "// pullJob not yet implemented";
+    }
+
+    @Override
     public String generateTemplate() throws IOException {
         return XML_DECLARATION + new JenkinsJobTemplateBuilder(JenkinsJobTemplateBuilder
                 .loadTemplate(PULL_JOB_TEMPLATE), this)

@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.fakekoji.jobmanager.JenkinsJobTemplateBuilder.JenkinsTemplate.JENKINSFILE_JOB_TEMPLATE;
 import static org.fakekoji.jobmanager.JenkinsJobTemplateBuilder.JenkinsTemplate.TASK_JOB_TEMPLATE;
 import static org.fakekoji.jobmanager.JenkinsJobTemplateBuilder.RELEASE_SUFFIX_VAR;
 import static org.fakekoji.jobmanager.JenkinsJobTemplateBuilder.XML_DECLARATION;
@@ -152,6 +153,11 @@ public class TestJob extends TaskJob {
                 testJob.getScriptsRoot(),
                 testJob.getProjectVariables()
         );
+    }
+
+    @Override
+    public String generateJenkinsfile() throws IOException {
+        return loadTemplate(JENKINSFILE_JOB_TEMPLATE);
     }
 
     @Override
