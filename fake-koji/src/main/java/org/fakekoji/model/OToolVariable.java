@@ -112,12 +112,24 @@ public class OToolVariable {
 
     public String getVariableString(final String terminal) {
         final String name = getFullName();
-        return (this.isCommentedOut() ? '#' : "") +
-                (this.isExported() ? EXPORT + ' ' : "") +
-                name +
-                '=' +
-                "\"" + this.getValue() + "\"" +
-                this.getComment().map(comment -> " # " + comment).orElse("") +
-                terminal;
+        if (terminal == null || terminal.isEmpty()) {
+            if (isCommentedOut()) {
+                return "";
+            } else {
+                return (this.isExported() ? EXPORT + ' ' : "") +
+                        name +
+                        '=' +
+                        "\"" + this.getValue() + "\";";
+                }
+        } else {
+            return (this.isCommentedOut() ? '#' : "") +
+                    (this.isExported() ? EXPORT + ' ' : "") +
+                    name +
+                    '=' +
+                    "\"" + this.getValue() + "\"" +
+                    this.getComment().map(comment -> " # " + comment).orElse("") +
+                    terminal;
+        }
     }
+
 }
