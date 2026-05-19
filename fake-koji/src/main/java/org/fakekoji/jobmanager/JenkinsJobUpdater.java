@@ -46,18 +46,19 @@ public class JenkinsJobUpdater implements JobUpdater {
     private final JDKProjectParser jdkProjectParser;
     private final File jenkinsJobsRoot;
     private final File jenkinsJobArchiveRoot;
+    private final File jenkinsfilesRoot;
 
     public JenkinsJobUpdater(
             final ConfigManager configManager,
             final JDKProjectParser jdkProjectParser,
             final File jenkinsJobsRoot,
-            final File jenkinsJobArchiveRoot
-
-    ) {
+            final File jenkinsJobArchiveRoot,
+            final File jenkinsfilesRoot) {
         this.configManager = configManager;
         this.jdkProjectParser = jdkProjectParser;
         this.jenkinsJobsRoot = jenkinsJobsRoot;
         this.jenkinsJobArchiveRoot = jenkinsJobArchiveRoot;
+        this.jenkinsfilesRoot = jenkinsfilesRoot;
     }
 
     @Override
@@ -475,6 +476,7 @@ public class JenkinsJobUpdater implements JobUpdater {
     private void writeJobConfigs(final File jobDir, final Job job) throws IOException {
         final File configFile = Paths.get(jobDir.getAbsolutePath(), JENKINS_JOB_CONFIG_FILE).toFile();
         Utils.writeToFile(configFile, job.generateTemplate());
+        Utils.writeToFile(new File(jenkinsfilesRoot,job.getName()+".jenkinsfile") , job.generateJenkinsfile());
     }
 
     private Result<Void, String> updateJenkinsJob(final Job job) {
