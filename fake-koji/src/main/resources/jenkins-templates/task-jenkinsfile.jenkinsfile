@@ -1,0 +1,100 @@
+properties([
+    parameters([
+//hardcoded
+        string(name: 'executionId', defaultValue: UUID.randomUUID().toString(), description: 'Unique execution ID'),
+//build platfrom is missing, Later? Parameter? Hardcoded? Inc triggering commit?
+//run platform
+        string(name: 'ebcShortlist', defaultValue: '%{RUN_PLATFORM_YML}', /*eg rh-openjdk-qe-rhel9-jenkins_medium.yml*/
+               description: 'This controls the EBC shortlist to use when provisioning a Jenkins node.'),
+//hardcoded
+        string(name: 'ecosystemTracking', defaultValue: "",
+               description: 'Tracking Map as string often containing information about CI Orchestrator pipeline'),
+//hardcoded
+        string(name: 'JENKINS_JOBS_BRANCH', defaultValue: 'dev', description: 'Branch of Jenkins jobs to use for scripts execution'),
+//hardcoded
+        string(name: 'JENKINS_JOBS_ORG', defaultValue: 'cognitive-software-delivery', description: 'GitHub Org of Jenkins jobs to use for scripts execution'),
+//generated, but hardcoded
+        string(name: 'TEST_SUITE_BRANCH', defaultValue: '%{TEST_SUITE_BRANCH}'/*eg main*/, description: 'Branch to test'),
+//generated
+        string(name: 'TEST_SUITE_URL',
+               defaultValue: '%{TEST_SUITE_URL}', /*eg https://github.com/rh-openjdk/TestHeadlessComponents.git*/
+               description: 'URL to download for prepared suites'),
+//there should be OTOOL_VARS?
+        string(name: 'TEST_COMMAND',
+               defaultValue: '%{EXPORTED_VARIABLES_SINGLELINE} export TEST_JDK_HOME=/usr/lib/jvm/java-17-openjdk JAVA_TO_TEST=/usr/lib/jvm/java-17-openjdk/bin/java OJDK_VERSION_NUMBER=17 JREJDK=jdk TMPRESULTS=tmpresults ; %{TASK_SCRIPT} ; ls', //eg  bash testHeadlessComponents.sh
+               description: 'Test command to execute on the target machine'),
+//eg cleanAndInstallRpms
+//lets stay with dnf isntall for now
+//maybe jsut download and save to rpms (becasue of portables and clanAndINstall)?
+        string(name: 'GET_JAVA_COMMAND',
+               defaultValue: 'sudo dnf install -y java-17-openjdk-devel',
+               description: 'The command to get jdk installed.'),
+//those threee may be ignored
+        string(name: 'FILE_SERVER', defaultValue: '',
+               description: 'File server where the final results and artifacts will be stored for Cognitive UI'),
+        string(name: 'JVM_UNDER_TEST_PATH', defaultValue: '',
+               description: 'The location on the fileserver to find the java we want to test against'),
+        string(name: 'REPORTING_JVM', defaultValue: 'REDHAT_JDK_17',
+               description: 'The JVM value to report to cognitive')
+    ])
+])
+
+
+//mandatory
+timestamps {
+    library 'jenkins-ci-websphere'
+
+    if (shouldSkipDueToSeedJob()) {
+        return;
+    }
+    println "Now you see me!"
+    try {
+        println "Requesting node from " + params.ebcShortlist + " with demand ID " + params.executionId
+        onEBC(
+            demandId: params.executionId,
+            ebcShortlist: params.ebcShortlist,
+            ebcPriority: params.ebcPriority,
+            autoCompleteAfterXHours: 24
+        ) {
+            stage('testsuite-clone') {
+                reportActivity(name: 'testsuite-clone', executionId: params.executionId) {
+                    println "Cloning the ${params.TEST_SUITE_URL} repo, branch ${params.TEST_SUITE_BRANCH}"
+
+                    git(
+                        branch: "${params.TEST_SUITE_BRANCH}",
+                        url: "${params.TEST_SUITE_URL}",
+                        submoduleCfg: [],  // enables submodule handling
+                        changelog: false,
+                        poll: false
+                    )
+
+                    // initialize & update submodules recursively
+                    sh """
+                        git submodule update --init --recursive
+                    """
+                }
+            }
+
+            stage('jvm-setup') {
+                reportActivity(name: 'jvm-setup', executionId: params.executionId) {
+                    withCredentials([usernamePassword(credentialsId: "intranetId", usernameVariable: 'intranetId_USR', passwordVariable: 'intranetId_PSW')]) {
+                        sh params.GET_JAVA_COMMAND
+                    }
+                }
+            }
+
+            stage('testsuite-run') {
+                reportActivity(name: 'testsuite-run', executionId: params.executionId) {
+                    withCredentials([usernamePassword(credentialsId: "intranetId", usernameVariable: 'intranetId_USR', passwordVariable: 'intranetId_PSW')]) {
+                        sh params.TEST_COMMAND
+                    }
+                }
+            }
+        }
+
+    } finally {
+        node (label: 'built-in') {
+            cleanupWorkspace()
+        }
+    }
+}

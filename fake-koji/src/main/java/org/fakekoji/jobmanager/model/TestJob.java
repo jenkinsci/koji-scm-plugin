@@ -1,6 +1,7 @@
 package org.fakekoji.jobmanager.model;
 
 import org.fakekoji.jobmanager.JenkinsJobTemplateBuilder;
+import org.fakekoji.jobmanager.JenkinsfileTemplateBuilder;
 import org.fakekoji.model.BuildProvider;
 import org.fakekoji.model.JDKVersion;
 import org.fakekoji.model.OToolVariable;
@@ -22,6 +23,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.fakekoji.jobmanager.JenkinsJobTemplateBuilder.JenkinsTemplate.JENKINSFILE_JOB_TEMPLATE;
 import static org.fakekoji.jobmanager.JenkinsJobTemplateBuilder.JenkinsTemplate.TASK_JOB_TEMPLATE;
 import static org.fakekoji.jobmanager.JenkinsJobTemplateBuilder.RELEASE_SUFFIX_VAR;
 import static org.fakekoji.jobmanager.JenkinsJobTemplateBuilder.XML_DECLARATION;
@@ -152,6 +154,20 @@ public class TestJob extends TaskJob {
                 testJob.getScriptsRoot(),
                 testJob.getProjectVariables()
         );
+    }
+
+    @Override
+    public String generateJenkinsfile() throws IOException {
+        return new JenkinsfileTemplateBuilder(loadTemplate(JENKINSFILE_JOB_TEMPLATE), this).expandAll(
+                        getBuildProviders(),
+                        getProjectName(),
+                        getBuildVariants(),
+                        fillBuildPlatform(getBuildPlatform(), getTask().getFileRequirements()),
+                        getTask(),
+                        getPlatformProvider(),
+                        getPlatform(),
+                        getScriptsRoot(),
+                        getExportedVariables());
     }
 
     @Override
