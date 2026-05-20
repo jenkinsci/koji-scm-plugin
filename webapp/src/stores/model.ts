@@ -67,6 +67,8 @@ export type BuildConfigs = {
 
 export interface Task extends Item {
     script: string;
+    repository: string;
+    branch: string;
     type: TaskType;
     scmPollSchedule: string;
     machinePreference: MachinePreference;
