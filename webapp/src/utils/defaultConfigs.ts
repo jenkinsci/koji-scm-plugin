@@ -72,6 +72,8 @@ const createDefaultTask = (): Task => ({
     },
     scmPollSchedule: "",
     script: "",
+    repository: "",
+    branch: "",
     type: "TEST",
     xmlTemplate: "",
     xmlViewTemplate: "",
