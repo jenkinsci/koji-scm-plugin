@@ -11,6 +11,8 @@ public class Task implements  Comparable<Task> {
 
     private final String id;
     private final String script;
+    private final String repository;
+    private final String branch;
     private final Type type;
     private final String scmPollSchedule;
     private final MachinePreference machinePreference;
@@ -26,6 +28,8 @@ public class Task implements  Comparable<Task> {
     public Task() {
         id = null;
         script = null;
+        repository = null;
+        branch = null;
         type = null;
         scmPollSchedule = null;
         machinePreference = null;
@@ -42,6 +46,8 @@ public class Task implements  Comparable<Task> {
     public Task(
             String id,
             String script,
+            String repository,
+            String branch,
             Type type,
             String scmPollSchedule,
             MachinePreference machinePreference,
@@ -56,6 +62,8 @@ public class Task implements  Comparable<Task> {
     ) {
         this.id = id;
         this.script = script;
+        this.repository = repository;
+        this.branch = branch;
         this.type = type;
         this.scmPollSchedule = scmPollSchedule;
         this.machinePreference = machinePreference;
@@ -75,6 +83,14 @@ public class Task implements  Comparable<Task> {
 
     public String getScript() {
         return script;
+    }
+
+    public String getRepository() {
+        return repository;
+    }
+
+    public String getBranch() {
+        return branch;
     }
 
     public Type getType() {
@@ -132,6 +148,8 @@ public class Task implements  Comparable<Task> {
         Task task = (Task) o;
         return Objects.equals(id, task.id) &&
                 Objects.equals(script, task.script) &&
+                Objects.equals(repository, task.repository) &&
+                Objects.equals(branch, task.branch) &&
                 type == task.type &&
                 Objects.equals(scmPollSchedule, task.scmPollSchedule) &&
                 machinePreference == task.machinePreference &&
@@ -150,6 +168,8 @@ public class Task implements  Comparable<Task> {
         return Objects.hash(
                 id,
                 script,
+                repository,
+                branch,
                 type,
                 scmPollSchedule,
                 machinePreference,

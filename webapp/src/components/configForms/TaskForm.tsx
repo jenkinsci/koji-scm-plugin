@@ -52,6 +52,14 @@ const TaskForm: React.FC<TaskFormProps> = props => {
             task.script = value
         }
 
+        const onRepositoryChange = (value: string) => {
+            task.repository = value
+        }
+
+        const onBranchChange = (value: string) => {
+            task.branch = value
+        }
+
         const onXmlTemplateChange = (value: string) => {
             task.xmlTemplate = value
         }
@@ -69,8 +77,13 @@ const TaskForm: React.FC<TaskFormProps> = props => {
             variables
         } = task
 
-        const { id: idValidation, script: scriptValidation, timeoutInHours: timeoutInHoursValidation } =
-            validation || ({} as TaskValidation)
+        const {
+            id: idValidation,
+            script: scriptValidation,
+            repository: repositoryValidation,
+            branch: branchValidation,
+            timeoutInHours: timeoutInHoursValidation
+        } = validation || ({} as TaskValidation)
 
         const variablesValidation = setDefaultValidations<VariableValidation>(
             validation && validation.variables,
@@ -106,6 +119,18 @@ const TaskForm: React.FC<TaskFormProps> = props => {
                     validation={scriptValidation}
                     value={task.script}
                     onChange={onScriptChange}
+                />
+                <TextInput
+                    label={"repository"}
+                    validation={repositoryValidation}
+                    value={task.repository}
+                    onChange={onRepositoryChange}
+                />
+                <TextInput
+                    label={"branch"}
+                    validation={branchValidation}
+                    value={task.branch}
+                    onChange={onBranchChange}
                 />
                  <TextInput
                     label={"timeoutInHours"}

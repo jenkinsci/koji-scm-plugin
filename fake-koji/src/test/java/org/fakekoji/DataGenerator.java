@@ -763,6 +763,8 @@ public class DataGenerator {
         return new Task(
                 BUILD,
                 "/path/build.sh",
+                "",
+                "",
                 Task.Type.BUILD,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.VM,
@@ -788,6 +790,8 @@ public class DataGenerator {
         return new Task(
                 TCK,
                 "/path/test.sh",
+                "git@my.repo",
+                "master",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.VM,
@@ -819,6 +823,8 @@ public class DataGenerator {
         return new Task(
                 TCK,
                 "/path/test.sh",
+                "",
+                "",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.HW,
@@ -844,6 +850,8 @@ public class DataGenerator {
         return new Task(
                 JTREG,
                 "/path/test.sh",
+                "",
+                "",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.HW,
@@ -869,6 +877,8 @@ public class DataGenerator {
         return new Task(
                 TCK,
                 "/path/test.sh",
+                "",
+                "",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.HW,
@@ -902,6 +912,8 @@ public class DataGenerator {
         return new Task(
                 LUCENE,
                 "/path/test.sh",
+                "",
+                "",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.HW,
@@ -927,6 +939,8 @@ public class DataGenerator {
         return new Task(
                 WILDFLY,
                 "/path/test.sh",
+                "",
+                "",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.HW,
@@ -952,6 +966,8 @@ public class DataGenerator {
         return new Task(
                 CHURN,
                 "/path/test.sh",
+                "",
+                "",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.HW,
@@ -977,6 +993,8 @@ public class DataGenerator {
         return new Task(
                 DACAPO,
                 "/path/test.sh",
+                "",
+                "",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.HW,
@@ -1002,6 +1020,8 @@ public class DataGenerator {
         return new Task(
                 TCK_AGENT,
                 "/path/test.sh",
+                "",
+                "",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.VM,

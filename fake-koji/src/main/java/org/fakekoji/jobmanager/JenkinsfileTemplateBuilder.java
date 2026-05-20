@@ -12,13 +12,9 @@ import org.fakekoji.model.TaskVariantValue;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 
 public class JenkinsfileTemplateBuilder {
@@ -73,7 +69,9 @@ public class JenkinsfileTemplateBuilder {
     }
 
     private JenkinsfileTemplateBuilder processTask(Task task) {
-        template = template.replace(TASK_SCRIPT, task.getScript());
+        template = template.replace(TASK_SCRIPT, task.getScript())
+                .replace(TEST_SUITE_URL,task.getRepository())
+                .replace(TEST_SUITE_BRANCH,task.getBranch());
         return this;
     }
 
