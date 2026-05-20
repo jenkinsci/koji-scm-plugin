@@ -68,7 +68,7 @@ public class JenkinsfileTemplateBuilder {
     }
 
     private JenkinsfileTemplateBuilder processPlatform(Platform platform) {
-        template = template.replace(RUN_PLATFORM_YML, platform.getVmName()/*repalce by that weird string*/);
+        template = template.replace(RUN_PLATFORM_YML, platform.getVmName());
         return this;
     }
 
