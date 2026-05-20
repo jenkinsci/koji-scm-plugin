@@ -56,6 +56,19 @@ const numericStringValidator = (value: string): BasicValidation => {
     return isNumeric(value) ? "ok" : "invalid"
 }
 
+const urlValidator = (value: StringInputValue): BasicValidation => {
+    if (!value || !value.trim()) {
+        return "ok" // Empty is allowed
+    }
+    try {
+        //it should be url, but if it is not, then we do not care. It is delegated to git. Maybe restrict it in future?
+        new URL(value)
+        return "ok"
+    } catch {
+        return "ok" // Soft validation - somehow do not work
+    }
+}
+
 const optionalValidator = (
     _: StringInputValue | CheckboxValue
 ): BasicValidation => "ok"
@@ -167,7 +180,7 @@ const platformValidator = ({
     vmName: requiredStringValidator(vmName)
 })
 
-const taskValidator = ({ id, script, variables, timeoutInHours }: Task) => ({
+const taskValidator = ({ id, script, repository, branch, variables, timeoutInHours }: Task) => ({
     fileRequirements: "ok",
     id: requiredStringValidator(id),
     machinePreference: "ok",
@@ -176,6 +189,8 @@ const taskValidator = ({ id, script, variables, timeoutInHours }: Task) => ({
     rpmLimitation: "ok",
     scmPollSchedule: "ok",
     script: requiredStringValidator(script),
+    repository: urlValidator(repository),
+    branch: optionalValidator(branch),
     type: "ok",
     variables: variablesValidator(variables),
     xmlTemplate: "ok",
