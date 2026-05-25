@@ -180,7 +180,7 @@ const platformValidator = ({
     vmName: requiredStringValidator(vmName)
 })
 
-const taskValidator = ({ id, script, repository, branch, variables, timeoutInHours }: Task) => ({
+const taskValidator = ({ id, script, repository, branch, variables, timeoutInHours, testSuiteResultsArchiveStub }: Task) => ({
     fileRequirements: "ok",
     id: requiredStringValidator(id),
     machinePreference: "ok",
@@ -195,6 +195,7 @@ const taskValidator = ({ id, script, repository, branch, variables, timeoutInHou
     variables: variablesValidator(variables),
     xmlTemplate: "ok",
     timeoutInHours: numericStringValidator(timeoutInHours),
+    testSuiteResultsArchiveStub: optionalValidator(testSuiteResultsArchiveStub)
 })
 
 export const validators: { [id in ConfigGroupId]: ConfigValidator } = {

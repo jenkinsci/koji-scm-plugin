@@ -26,6 +26,7 @@ public class JenkinsfileTemplateBuilder {
     static final String TEST_SUITE_URL= "%{TEST_SUITE_URL}";
     static final String TEST_SUITE_BRANCH = "%{TEST_SUITE_BRANCH}";
     static final String EXPORTED_VARIABLES_SINGLELINE = "%{EXPORTED_VARIABLES_SINGLELINE}";
+    static final String TEST_SUITE_RESULTS_ARCHIVE_STUB = "%{TEST_SUITE_RESULTS_ARCHIVE_STUB}";
 
     public JenkinsfileTemplateBuilder(String template, NamesProvider job) {
         this.template = template;
@@ -68,6 +69,12 @@ public class JenkinsfileTemplateBuilder {
         return this;
     }
 
+    private JenkinsfileTemplateBuilder processArtifactoryArchiver(Task task) {
+        template = template.replace(TEST_SUITE_RESULTS_ARCHIVE_STUB, task.getTestSuiteResultsArchiveStub() == null ? "" : task.getTestSuiteResultsArchiveStub());
+        return this;
+    }
+
+
     private JenkinsfileTemplateBuilder processTask(Task task) {
         template = template.replace(TASK_SCRIPT, task.getScript())
                 .replace(TEST_SUITE_URL,task.getRepository())
@@ -92,6 +99,7 @@ public class JenkinsfileTemplateBuilder {
         return this.processVariables(task, platform, exportedVariables)
                 .processPlatform(platform)
                 .processTask(task)
+                .processArtifactoryArchiver(task)
                 .getTemplate();
     }
 

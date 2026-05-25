@@ -112,7 +112,8 @@ cat << EOF >$CONFIGS/tasks/headless~components.json
     "allowlist" : [ ]
   },
   "variables" : [ ],
-  "timeoutInHours" : 24
+  "timeoutInHours" : 24,
+  "testSuiteResultsArchiveStub" : "arhiv.tarxz.xp"
 }
 EOF
 cat << EOF >$CONFIGS/jdkVersions/jp17.json
