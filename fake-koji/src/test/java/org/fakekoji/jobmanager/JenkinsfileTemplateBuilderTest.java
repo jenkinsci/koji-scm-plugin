@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class JenkinsfileTemplateBuilderTest {
 
@@ -66,37 +67,6 @@ public class JenkinsfileTemplateBuilderTest {
         FileUtils.deleteDirectory(scriptsRoot);
         scriptsRoot.mkdirs();
     }
-
-
-    public static final String SHRT_NM = "ShrtNm";
-    public static final String LONG_NAME = "Long-Name";
-
-    private static final NamesProvider dummyNamesProvider = new NamesProvider() {
-        @Override
-        public String getName() {
-            return LONG_NAME;
-        }
-
-        @Override
-        public String getShortName() {
-            return SHRT_NM;
-        }
-    };
-
-    private static final String BUILD_PROVIDERS_TEMPLATE = "        <kojiBuildProviders class=\"list\">\n" +
-            "            <hudson.plugins.scm.koji.KojiBuildProvider>\n" +
-            "                <buildProvider>\n" +
-            "                    <topUrl>" + BUILD_PROVIDER_1_TOP_URL + "</topUrl>\n" +
-            "                    <downloadUrl>" + BUILD_PROVIDER_1_DOWNLOAD_URL + "</downloadUrl>\n" +
-            "                </buildProvider>\n" +
-            "            </hudson.plugins.scm.koji.KojiBuildProvider>\n" +
-            "            <hudson.plugins.scm.koji.KojiBuildProvider>\n" +
-            "                <buildProvider>\n" +
-            "                    <topUrl>" + BUILD_PROVIDER_2_TOP_URL + "</topUrl>\n" +
-            "                    <downloadUrl>" + BUILD_PROVIDER_2_DOWNLOAD_URL + "</downloadUrl>\n" +
-            "                </buildProvider>\n" +
-            "            </hudson.plugins.scm.koji.KojiBuildProvider>\n" +
-            "        </kojiBuildProviders>\n";
 
 
     @Test
@@ -153,56 +123,40 @@ public class JenkinsfileTemplateBuilderTest {
         final String expectedTemplate = """
                 properties([
                     parameters([
-                //hardcoded
                         string(name: 'executionId', defaultValue: UUID.randomUUID().toString(), description: 'Unique execution ID'),
                 //build platfrom is missing, Later? Parameter? Hardcoded? Inc triggering commit?
                 //run platform
                         string(name: 'ebcShortlist', defaultValue: 'f29-x64', /*eg rh-openjdk-qe-rhel9-jenkins_medium.yml*/
                                description: 'This controls the EBC shortlist to use when provisioning a Jenkins node.'),
-                //hardcoded
                         string(name: 'ecosystemTracking', defaultValue: "",
                                description: 'Tracking Map as string often containing information about CI Orchestrator pipeline'),
-                //hardcoded
                         string(name: 'JENKINS_JOBS_BRANCH', defaultValue: 'dev', description: 'Branch of Jenkins jobs to use for scripts execution'),
-                //hardcoded
                         string(name: 'JENKINS_JOBS_ORG', defaultValue: 'cognitive-software-delivery', description: 'GitHub Org of Jenkins jobs to use for scripts execution'),
-                //generated, but hardcoded
+                        string(name: 'JDK_DOWNLOAD_URL', defaultValue: '',
+                               description: 'URL to download the JDK tarball from (REQUIRED - e.g., passed from TemurinBuildMockup job)'),
                         string(name: 'TEST_SUITE_BRANCH', defaultValue: 'master'/*eg main*/, description: 'Branch to test'),
-                //generated
                         string(name: 'TEST_SUITE_URL',
                                defaultValue: 'git@my.repo', /*eg https://github.com/rh-openjdk/TestHeadlessComponents.git*/
                                description: 'URL to download for prepared suites'),
-                //there should be OTOOL_VARS?
                         string(name: 'TEST_COMMAND',
-                               defaultValue: 'export OTOOL_ARCH="x86_64";export OTOOL_BUILD_ARCH="x86_64";export OTOOL_BUILD_OS="f.29";export OTOOL_BUILD_OS_NAME="f";export OTOOL_BUILD_OS_VERSION="29";export OTOOL_JDK_VERSION="8";export OTOOL_JOB_NAME="tck-jdk8-testProject-f29.x86_64-release-f29.x86_64.vagrant-shenandoah.wayland.fips.lnxagent.jfron";export OTOOL_JOB_NAME_SHORTENED="tck-testProject-r-f29.x86_64.vagrant-swflj-727d50f6cb04218d";export OTOOL_OJDK="jdk8";export OTOOL_OS="f.29";export OTOOL_OS_NAME="f";export OTOOL_OS_VERSION="29";export OTOOL_PACKAGE_NAME="java-1.8.0-openjdk";export OTOOL_PROJECT_NAME="testProject";export OTOOL_TASK="tck";export OTOOL_agent="lnxagent";export OTOOL_crypto="fips";export OTOOL_debugMode="release";export OTOOL_displayProtocol="wayland";export OTOOL_garbageCollector="shenandoah";export OTOOL_jfr="jfron"; export TEST_JDK_HOME=/usr/lib/jvm/java-17-openjdk JAVA_TO_TEST=/usr/lib/jvm/java-17-openjdk/bin/java OJDK_VERSION_NUMBER=17 JREJDK=jdk TMPRESULTS=tmpresults ; /path/test.sh ; ls', //eg  bash testHeadlessComponents.sh
-                               description: 'Test command to execute on the target machine'),
-                //eg cleanAndInstallRpms
-                //lets stay with dnf isntall for now
-                //maybe jsut download and save to rpms (becasue of portables and clanAndINstall)?
-                        string(name: 'GET_JAVA_COMMAND',
-                               defaultValue: 'sudo dnf install -y java-17-openjdk-devel',
-                               description: 'The command to get jdk installed.'),
-                //those threee may be ignored
+                               defaultValue: 'export OTOOL_ARCH="x86_64";export OTOOL_BUILD_ARCH="x86_64";export OTOOL_BUILD_OS="f.29";export OTOOL_BUILD_OS_NAME="f";export OTOOL_BUILD_OS_VERSION="29";export OTOOL_JDK_VERSION="8";export OTOOL_JOB_NAME="tck-jdk8-testProject-f29.x86_64-release-f29.x86_64.vagrant-shenandoah.wayland.fips.lnxagent.jfron";export OTOOL_JOB_NAME_SHORTENED="tck-testProject-r-f29.x86_64.vagrant-swflj-727d50f6cb04218d";export OTOOL_OJDK="jdk8";export OTOOL_OS="f.29";export OTOOL_OS_NAME="f";export OTOOL_OS_VERSION="29";export OTOOL_PACKAGE_NAME="java-1.8.0-openjdk";export OTOOL_PROJECT_NAME="testProject";export OTOOL_TASK="tck";export OTOOL_agent="lnxagent";export OTOOL_crypto="fips";export OTOOL_debugMode="release";export OTOOL_displayProtocol="wayland";export OTOOL_garbageCollector="shenandoah";export OTOOL_jfr="jfron"; export JREJDK=jdk TMPRESULTS=tmpresults ; /path/test.sh ; ls', //eg  bash testHeadlessComponents.sh
+                               description: 'Test command to execute on the target machine (TEST_JDK_HOME, JAVA_TO_TEST, and OJDK_VERSION_NUMBER are auto-detected)'),
+                //? cleanAndInstallRpms
                         string(name: 'FILE_SERVER', defaultValue: '',
                                description: 'File server where the final results and artifacts will be stored for Cognitive UI'),
-                        string(name: 'JVM_UNDER_TEST_PATH', defaultValue: '',
-                               description: 'The location on the fileserver to find the java we want to test against'),
                         string(name: 'REPORTING_JVM', defaultValue: 'REDHAT_JDK_17',
-                               description: 'The JVM value to report to cognitive')
+                               description: 'The JVM value to report to cognitive')              \s
                     ])
                 ])
                 
-                
-                //mandatory
                 timestamps {
                     library 'jenkins-ci-websphere'
                 
                     if (shouldSkipDueToSeedJob()) {
                         return;
                     }
-                    println "Now you see me!"
                     try {
-                        println "Requesting node from " + params.ebcShortlist + " with demand ID " + params.executionId
+                        println "Requesting node from " + params.ebcShortlist + " with demand ID " + params.executionId \s
                         onEBC(
                             demandId: params.executionId,
                             ebcShortlist: params.ebcShortlist,
@@ -231,7 +185,55 @@ public class JenkinsfileTemplateBuilderTest {
                             stage('jvm-setup') {
                                 reportActivity(name: 'jvm-setup', executionId: params.executionId) {
                                     withCredentials([usernamePassword(credentialsId: "intranetId", usernameVariable: 'intranetId_USR', passwordVariable: 'intranetId_PSW')]) {
-                                        sh params.GET_JAVA_COMMAND
+                                        if (!params.JDK_DOWNLOAD_URL || params.JDK_DOWNLOAD_URL == '') {
+                                            error("JDK_DOWNLOAD_URL parameter is required but was not provided")
+                                        }
+                
+                                        println "Downloading JDK from: ${params.JDK_DOWNLOAD_URL}"
+                                        sh ""\"
+                                            set -e
+                                            mkdir -p ~/jdk-downloads
+                                            cd ~/jdk-downloads
+                
+                                            # Download the JDK tarball
+                                            curl -L -o jdk-download.tar.gz "${params.JDK_DOWNLOAD_URL}"
+                
+                                            # Extract the JDK
+                                            tar -xzf jdk-download.tar.gz
+                
+                                            # Find the extracted JDK directory
+                                            JDK_DIR=\\$(find . -maxdepth 1 -type d -name "jdk*" | head -n 1)
+                
+                                            if [ -z "\\${JDK_DIR}" ]; then
+                                                echo "ERROR: Could not find extracted JDK directory"
+                                                exit 1
+                                            fi
+                
+                                            # Get absolute path
+                                            JDK_DIR=\\$(cd "\\${JDK_DIR}" && pwd)
+                
+                                            # Verify the JDK
+                                            "\\${JDK_DIR}/bin/java" -version
+                
+                                            echo "JDK downloaded and extracted to: \\${JDK_DIR}"
+                
+                                            # Auto-detect JDK version
+                                            JAVA_VERSION=\\$("\\${JDK_DIR}/bin/java" -version 2>&1 | head -n 1 | awk -F '"' '{print \\$2}')
+                                            OJDK_VERSION_NUMBER=\\$(echo "\\${JAVA_VERSION}" | awk -F '.' '{print \\$1}')
+                
+                                            # Export environment variables for subsequent stages
+                                            echo "export TEST_JDK_HOME=\\${JDK_DIR}" > ~/jdk-env.sh
+                                            echo "export JAVA_TO_TEST=\\${JDK_DIR}/bin/java" >> ~/jdk-env.sh
+                                            echo "export OJDK_VERSION_NUMBER=\\${OJDK_VERSION_NUMBER}" >> ~/jdk-env.sh
+                
+                                            echo ""
+                                            echo "=========================================="
+                                            echo "Auto-detected JDK configuration:"
+                                            echo "  TEST_JDK_HOME=\\${JDK_DIR}"
+                                            echo "  JAVA_TO_TEST=\\${JDK_DIR}/bin/java"
+                                            echo "  OJDK_VERSION_NUMBER=\\${OJDK_VERSION_NUMBER}"
+                                            echo "=========================================="
+                                        ""\"
                                     }
                                 }
                             }
@@ -239,8 +241,32 @@ public class JenkinsfileTemplateBuilderTest {
                             stage('testsuite-run') {
                                 reportActivity(name: 'testsuite-run', executionId: params.executionId) {
                                     withCredentials([usernamePassword(credentialsId: "intranetId", usernameVariable: 'intranetId_USR', passwordVariable: 'intranetId_PSW')]) {
-                                        sh params.TEST_COMMAND
+                                        sh ""\"
+                                            # Source the auto-detected JDK environment variables
+                                            source ~/jdk-env.sh
+                
+                                            # Execute the test command
+                                            ${params.TEST_COMMAND}
+                                        ""\"
                                     }
+                                }
+                            }
+                
+                            stage('Test result upload') {
+                                withCredentials([usernamePassword(credentialsId: 'artifactoryToken', usernameVariable: 'artifactory_username', passwordVariable: 'artifactory_password')]) {
+                                    sh ""\"
+                                        # Assign credentials to bash variables
+                                        USERNAME="\\$artifactory_username"
+                                        PASSWORD="\\$artifactory_password"
+                
+                                        # Set up upload parameters
+                                        EXECUTION_ID="${params.executionId}"
+                                        ARTIFACTORY_URL="https://eu.artifactory.swg-devops.com/artifactory/rhh-team-openjdk-qe-generic-local/\\${EXECUTION_ID}/"
+                                        FILE_PATH="$HOME/Build/workspace/%{TEST_SUITE_RESULTS_ARCHIVE_STUB}"
+                
+                                        # Upload file to Artifactory
+                                        curl -u "\\${USERNAME}:\\${PASSWORD}" -T "\\${FILE_PATH}" "\\${ARTIFACTORY_URL}"
+                                    ""\"
                                 }
                             }
                         }
@@ -250,11 +276,15 @@ public class JenkinsfileTemplateBuilderTest {
                             cleanupWorkspace()
                         }
                     }
-                }
+                }   \s
+                
                 """;
 
         final String actualTemplate = testJob.generateJenkinsfile();
-        Assertions.assertEquals(expectedTemplate, actualTemplate);
+        //there was so much random empty-filled lines that we msut drop them...
+        Assertions.assertEquals(
+                expectedTemplate.lines().map(s-> s.isBlank()?s.trim():s).collect(Collectors.joining("\n")),
+                actualTemplate.lines().map(s->s.isBlank()?s.trim():s).collect(Collectors.joining("\n")));
     }
 
 
