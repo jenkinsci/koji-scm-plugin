@@ -262,7 +262,7 @@ public class JenkinsfileTemplateBuilderTest {
                                         # Set up upload parameters
                                         EXECUTION_ID="${params.executionId}"
                                         ARTIFACTORY_URL="https://eu.artifactory.swg-devops.com/artifactory/rhh-team-openjdk-qe-generic-local/\\${EXECUTION_ID}/"
-                                        FILE_PATH="$HOME/Build/workspace/%{TEST_SUITE_RESULTS_ARCHIVE_STUB}"
+                                        FILE_PATH="$HOME/Build/workspace/results.tar.xz"
                 
                                         # Upload file to Artifactory
                                         curl -u "\\${USERNAME}:\\${PASSWORD}" -T "\\${FILE_PATH}" "\\${ARTIFACTORY_URL}"

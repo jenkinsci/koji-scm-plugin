@@ -79,7 +79,8 @@ export interface Task extends Item {
     xmlViewTemplate: string;
     rpmLimitation: RPMLimitation;
     timeoutInHours: string;
-    variables: Variable[]
+    variables: Variable[];
+    testSuiteResultsArchiveStub: string;
 }
 
 export type TaskType = "BUILD" | "TEST"
