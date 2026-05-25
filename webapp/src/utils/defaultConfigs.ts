@@ -78,7 +78,8 @@ const createDefaultTask = (): Task => ({
     xmlTemplate: "",
     xmlViewTemplate: "",
     timeoutInHours: "0",
-    variables: []
+    variables: [],
+    testSuiteResultsArchiveStub: ""
 })
 
 export const createDefaultVariable = (): Variable => ({

@@ -782,7 +782,8 @@ public class DataGenerator {
                         Collections.emptyList()
                 ),
                 Collections.emptyList(),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -815,7 +816,8 @@ public class DataGenerator {
                         )
                 ),
                 Collections.emptyList(),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -842,7 +844,8 @@ public class DataGenerator {
                         Collections.emptyList()
                 ),
                 Collections.emptyList(),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -869,7 +872,8 @@ public class DataGenerator {
                         Collections.emptyList()
                 ),
                 Collections.emptyList(),
-                10
+                10,
+                "results.tar.xz"
         );
     }
 
@@ -896,7 +900,8 @@ public class DataGenerator {
                         Collections.emptyList()
                 ),
                 Collections.emptyList(),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -931,7 +936,8 @@ public class DataGenerator {
                         Collections.emptyList()
                 ),
                 Collections.emptyList(),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -958,7 +964,8 @@ public class DataGenerator {
                         Collections.emptyList()
                 ),
                 Collections.emptyList(),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -985,7 +992,8 @@ public class DataGenerator {
                         Collections.emptyList()
                 ),
                 Collections.emptyList(),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -1012,7 +1020,8 @@ public class DataGenerator {
                         Collections.emptyList()
                 ),
                 Collections.emptyList(),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -1041,7 +1050,8 @@ public class DataGenerator {
                 Arrays.asList(
                         new OToolVariable(AGENT, LINUX)
                 ),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 

@@ -24,6 +24,7 @@ public class Task implements  Comparable<Task> {
     private final RpmLimitation rpmLimitation;
     private final List<OToolVariable> variables;
     private final Integer timeoutInHours;
+    private final String testSuiteResultsArchiveStub;
 
     public Task() {
         id = null;
@@ -41,6 +42,7 @@ public class Task implements  Comparable<Task> {
         rpmLimitation = null;
         variables = null;
         timeoutInHours = null;
+        testSuiteResultsArchiveStub = null;
     }
 
     public Task(
@@ -58,7 +60,8 @@ public class Task implements  Comparable<Task> {
             String xmlViewTemplate,
             RpmLimitation rpmLimitation,
             List<OToolVariable> variables,
-            Integer timeoutInHours
+            Integer timeoutInHours,
+            String testSuiteResultsArchiveStub
     ) {
         this.id = id;
         this.script = script;
@@ -75,6 +78,7 @@ public class Task implements  Comparable<Task> {
         this.rpmLimitation = rpmLimitation;
         this.variables = variables;
         this.timeoutInHours = timeoutInHours;
+        this.testSuiteResultsArchiveStub = testSuiteResultsArchiveStub;
     }
 
     public String getId() {
@@ -133,6 +137,10 @@ public class Task implements  Comparable<Task> {
         return variables;
     }
 
+    public String getTestSuiteResultsArchiveStub() {
+        return testSuiteResultsArchiveStub;
+    }
+
     public static Optional<String> getViewColumnsAsOptional(Task t) {
         if (t.xmlViewTemplate == null || t.xmlViewTemplate.isBlank()){
             return Optional.empty();
@@ -160,7 +168,8 @@ public class Task implements  Comparable<Task> {
                 Objects.equals(xmlViewTemplate, task.xmlViewTemplate) &&
                 Objects.equals(rpmLimitation, task.rpmLimitation) &&
                 Objects.equals(variables, task.variables) &&
-                Objects.equals(timeoutInHours, task.timeoutInHours);
+                Objects.equals(timeoutInHours, task.timeoutInHours) &&
+                Objects.equals(testSuiteResultsArchiveStub, task.testSuiteResultsArchiveStub);
     }
 
     @Override
@@ -180,7 +189,8 @@ public class Task implements  Comparable<Task> {
                 xmlViewTemplate,
                 rpmLimitation,
                 variables,
-                timeoutInHours
+                timeoutInHours,
+                testSuiteResultsArchiveStub
         );
     }
 
