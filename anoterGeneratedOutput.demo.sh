@@ -62,6 +62,27 @@ mkdir $CONFIGS/platforms
 mkdir $CONFIGS/tasks
 mkdir $CONFIGS/taskVariants
 
+cat << EOF >$CONFIGS/platforms/el8.x86_64.json
+{
+  "id" : "el8.x86_64",
+  "os" : "el",
+  "version" : "8",
+  "versionNumber" : "8",
+  "architecture" : "x86_64",
+  "kojiArch" : "x86_64",
+    "providers" : [ {
+    "id" : "ibm",
+    "hwNodes" : [ ],
+    "vmNodes" : [ "fyre" ]
+  } ],
+  "vmName" : "rh-openjdk-qe-rhel8-jenkins_medium.yml",
+  "testingYstream" : "False",
+  "stableZstream" : "True",
+  "tags" : [ ],
+  "variables" : [ ],
+  "osVersion" : "el8"
+}
+EOF
 cat << EOF >$CONFIGS/platforms/el9.x86_64.json
 {
   "id" : "el9.x86_64",
@@ -76,11 +97,95 @@ cat << EOF >$CONFIGS/platforms/el9.x86_64.json
     "vmNodes" : [ "fyre" ]
   } ],
   "vmName" : "rh-openjdk-qe-rhel9-jenkins_medium.yml",
-  "testingYstream" : "True",
-  "stableZstream" : "False",
+  "testingYstream" : "False",
+  "stableZstream" : "True",
   "tags" : [ ],
   "variables" : [ ],
   "osVersion" : "el9"
+}
+EOF
+cat << EOF >$CONFIGS/platforms/el10.x86_64.json
+{
+  "id" : "el10.x86_64",
+  "os" : "el",
+  "version" : "10",
+  "versionNumber" : "10",
+  "architecture" : "x86_64",
+  "kojiArch" : "x86_64",
+    "providers" : [ {
+    "id" : "ibm",
+    "hwNodes" : [ ],
+    "vmNodes" : [ "fyre" ]
+  } ],
+  "vmName" : "rh-openjdk-qe-rhel10-jenkins_medium.yml",
+  "testingYstream" : "False",
+  "stableZstream" : "True",
+  "tags" : [ ],
+  "variables" : [ ],
+  "osVersion" : "el10"
+}
+EOF
+cat << EOF >$CONFIGS/platforms/win11.x86_64.json
+{
+  "id" : "win11.x86_64",
+  "os" : "win",
+  "version" : "11",
+  "versionNumber" : "11",
+  "architecture" : "x86_64",
+  "kojiArch" : "x86_64",
+    "providers" : [ {
+    "id" : "ibm",
+    "hwNodes" : [ ],
+    "vmNodes" : [ "fyre" ]
+  } ],
+  "vmName" : "rh-openjdk-qe-windows11_medium_harmony.yml",
+  "testingYstream" : "False",
+  "stableZstream" : "True",
+  "tags" : [ ],
+  "variables" : [ ],
+  "osVersion" : "win11"
+}
+EOF
+cat << EOF >$CONFIGS/platforms/win22.x86_64.json
+{
+  "id" : "win22.x86_64",
+  "os" : "win",
+  "version" : "22",
+  "versionNumber" : "22",
+  "architecture" : "x86_64",
+  "kojiArch" : "x86_64",
+    "providers" : [ {
+    "id" : "ibm",
+    "hwNodes" : [ ],
+    "vmNodes" : [ "fyre" ]
+  } ],
+  "vmName" : "rh-openjdk-qe-windows2022_medium_harmony.yml",
+  "testingYstream" : "False",
+  "stableZstream" : "True",
+  "tags" : [ ],
+  "variables" : [ ],
+  "osVersion" : "win22"
+}
+EOF
+cat << EOF >$CONFIGS/platforms/win25.x86_64.json
+{
+  "id" : "win25.x86_64",
+  "os" : "win",
+  "version" : "25",
+  "versionNumber" : "25",
+  "architecture" : "x86_64",
+  "kojiArch" : "x86_64",
+    "providers" : [ {
+    "id" : "ibm",
+    "hwNodes" : [ ],
+    "vmNodes" : [ "fyre" ]
+  } ],
+  "vmName" : "rh-openjdk-qe-windows2025_medium_harmony.yml",
+  "testingYstream" : "False",
+  "stableZstream" : "True",
+  "tags" : [ ],
+  "variables" : [ ],
+  "osVersion" : "win25"
 }
 EOF
 cat << EOF >$CONFIGS/tasks/headless~components.json
