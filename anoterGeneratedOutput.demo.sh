@@ -125,6 +125,48 @@ cat << EOF >$CONFIGS/platforms/el10.x86_64.json
   "osVersion" : "el10"
 }
 EOF
+cat << EOF >$CONFIGS/platforms/centos10.x86_64.json
+{
+  "id" : "centos10.x86_64",
+  "os" : "el",
+  "version" : "10",
+  "versionNumber" : "10",
+  "architecture" : "x86_64",
+  "kojiArch" : "x86_64",
+    "providers" : [ {
+    "id" : "ibm",
+    "hwNodes" : [ ],
+    "vmNodes" : [ "fyre" ]
+  } ],
+  "vmName" : "rh-openjdk-qe-centos10-jenkins_medium.yml",
+  "testingYstream" : "True",
+  "stableZstream" : "False",
+  "tags" : [ ],
+  "variables" : [ ],
+  "osVersion" : "el10"
+}
+EOF
+cat << EOF >$CONFIGS/platforms/centos9.x86_64.json
+{
+  "id" : "centos9.x86_64",
+  "os" : "el",
+  "version" : "9",
+  "versionNumber" : "9",
+  "architecture" : "x86_64",
+  "kojiArch" : "x86_64",
+    "providers" : [ {
+    "id" : "ibm",
+    "hwNodes" : [ ],
+    "vmNodes" : [ "fyre" ]
+  } ],
+  "vmName" : "rh-openjdk-qe-centos9-jenkins_medium.yml",
+  "testingYstream" : "True",
+  "stableZstream" : "False",
+  "tags" : [ ],
+  "variables" : [ ],
+  "osVersion" : "el9"
+}
+EOF
 cat << EOF >$CONFIGS/platforms/win11.x86_64.json
 {
   "id" : "win11.x86_64",
