@@ -13,7 +13,8 @@ public class KojiScmDescriptor extends SCMDescriptor<KojiSCM> {
 
     private static final Logger LOG = LoggerFactory.getLogger(SCMDescriptor.class);
     private boolean KojiSCMConfig_requireWorkspace = true;
-    private boolean KojiSCMConfig_skipPoolingIfJobRuns = false;
+    private boolean KojiSCMConfig_skipPoolingIfJobRuns = true;
+    private boolean KojiSCMConfig_checkOnCheckout = false;
 
     public KojiScmDescriptor() {
         super(KojiSCM.class, KojiRepositoryBrowser.class);
@@ -39,8 +40,10 @@ public class KojiScmDescriptor extends SCMDescriptor<KojiSCM> {
     public boolean configure(StaplerRequest2 req, JSONObject json) throws FormException {
         this.KojiSCMConfig_requireWorkspace = json.getBoolean("KojiSCMConfig_requireWorkspace");
         this.KojiSCMConfig_skipPoolingIfJobRuns = json.getBoolean("KojiSCMConfig_skipPoolingIfJobRuns");
+        this.KojiSCMConfig_checkOnCheckout = json.getBoolean("KojiSCMConfig_checkOnCheckout");
         LOG.debug("KojiSCMConfig_requireWorkspace configured to: " + KojiSCMConfig_requireWorkspace);
         LOG.debug("KojiSCMConfig_skipPoolingIfJobRuns configured to: " + KojiSCMConfig_skipPoolingIfJobRuns);
+        LOG.debug("KojiSCMConfig_checkOnCheckout configured to: " + KojiSCMConfig_checkOnCheckout);
         save();
         return true;
     }
@@ -55,6 +58,11 @@ public class KojiScmDescriptor extends SCMDescriptor<KojiSCM> {
         return KojiSCMConfig_skipPoolingIfJobRuns;
     }
 
+    public boolean getKojiSCMConfig_checkOnCheckout() {
+        LOG.debug("KojiSCMConfig_checkOnCheckout returning " + KojiSCMConfig_checkOnCheckout);
+        return KojiSCMConfig_checkOnCheckout;
+    }
+
     @DataBoundSetter
     public void setKojiSCMConfig_requireWorkspace(boolean kojiSCMConfig) {
         // TODO implement complex refreshing logic
@@ -67,5 +75,12 @@ public class KojiScmDescriptor extends SCMDescriptor<KojiSCM> {
         // TODO implement complex refreshing logic
         LOG.debug("KojiSCMConfig_skipPoolingIfJobRuns set from" + KojiSCMConfig_skipPoolingIfJobRuns + " to " + kojiSCMConfig);
         this.KojiSCMConfig_skipPoolingIfJobRuns = kojiSCMConfig;
+    }
+
+    @DataBoundSetter
+    public void setKojiSCMConfig_checkOnCheckout(boolean kojiSCMConfig) {
+        // TODO implement complex refreshing logic
+        LOG.debug("KojiSCMConfig_checkOnCheckout set from" + KojiSCMConfig_checkOnCheckout + " to " + kojiSCMConfig);
+        this.KojiSCMConfig_checkOnCheckout = kojiSCMConfig;
     }
 }

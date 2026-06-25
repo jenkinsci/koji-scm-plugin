@@ -1,0 +1,16 @@
+<div>
+    <h3>If checked, the freshly checkout build/NVR is checked again against processed.txt after download.</h3>
+    <ul>
+        <li>By default, it is NOT selected</li>
+        <li>If there is nothing to checkout - eg the NVR was added to processed.txt in meantime, the build gracefully stops</li>
+        <li>If the build was started by build-now, and the NVR will be found in processed.txt (which it most likely will), the build fails</li>
+        <li>This is safety belt for cases, when koji plugin get mad, and keep building same NVR in turns</li>
+        <ul>
+            <li>That happens if job runs longer then scheduling pulls, and "KojiSCM skip pooling if job runs" is off. </li>
+            <li>That happens  build now is pressed to often</li>
+            <li><b>That happens  when checkout takes longer then the scheduling pulls</b></li>
+            <li>the build-now button will stop work as it is used to</li>
+        </ul>
+        <li><b>This is temporary switch before better solution is found</b></li>
+    </ul>
+</div>
