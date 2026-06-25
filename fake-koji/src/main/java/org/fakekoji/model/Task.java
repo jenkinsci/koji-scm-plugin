@@ -11,6 +11,8 @@ public class Task implements  Comparable<Task> {
 
     private final String id;
     private final String script;
+    private final String repository;
+    private final String branch;
     private final Type type;
     private final String scmPollSchedule;
     private final MachinePreference machinePreference;
@@ -22,10 +24,13 @@ public class Task implements  Comparable<Task> {
     private final RpmLimitation rpmLimitation;
     private final List<OToolVariable> variables;
     private final Integer timeoutInHours;
+    private final String testSuiteResultsArchiveStub;
 
     public Task() {
         id = null;
         script = null;
+        repository = null;
+        branch = null;
         type = null;
         scmPollSchedule = null;
         machinePreference = null;
@@ -37,11 +42,14 @@ public class Task implements  Comparable<Task> {
         rpmLimitation = null;
         variables = null;
         timeoutInHours = null;
+        testSuiteResultsArchiveStub = null;
     }
 
     public Task(
             String id,
             String script,
+            String repository,
+            String branch,
             Type type,
             String scmPollSchedule,
             MachinePreference machinePreference,
@@ -52,10 +60,13 @@ public class Task implements  Comparable<Task> {
             String xmlViewTemplate,
             RpmLimitation rpmLimitation,
             List<OToolVariable> variables,
-            Integer timeoutInHours
+            Integer timeoutInHours,
+            String testSuiteResultsArchiveStub
     ) {
         this.id = id;
         this.script = script;
+        this.repository = repository;
+        this.branch = branch;
         this.type = type;
         this.scmPollSchedule = scmPollSchedule;
         this.machinePreference = machinePreference;
@@ -67,6 +78,7 @@ public class Task implements  Comparable<Task> {
         this.rpmLimitation = rpmLimitation;
         this.variables = variables;
         this.timeoutInHours = timeoutInHours;
+        this.testSuiteResultsArchiveStub = testSuiteResultsArchiveStub;
     }
 
     public String getId() {
@@ -75,6 +87,14 @@ public class Task implements  Comparable<Task> {
 
     public String getScript() {
         return script;
+    }
+
+    public String getRepository() {
+        return repository;
+    }
+
+    public String getBranch() {
+        return branch;
     }
 
     public Type getType() {
@@ -117,6 +137,10 @@ public class Task implements  Comparable<Task> {
         return variables;
     }
 
+    public String getTestSuiteResultsArchiveStub() {
+        return testSuiteResultsArchiveStub;
+    }
+
     public static Optional<String> getViewColumnsAsOptional(Task t) {
         if (t.xmlViewTemplate == null || t.xmlViewTemplate.isBlank()){
             return Optional.empty();
@@ -132,6 +156,8 @@ public class Task implements  Comparable<Task> {
         Task task = (Task) o;
         return Objects.equals(id, task.id) &&
                 Objects.equals(script, task.script) &&
+                Objects.equals(repository, task.repository) &&
+                Objects.equals(branch, task.branch) &&
                 type == task.type &&
                 Objects.equals(scmPollSchedule, task.scmPollSchedule) &&
                 machinePreference == task.machinePreference &&
@@ -142,7 +168,8 @@ public class Task implements  Comparable<Task> {
                 Objects.equals(xmlViewTemplate, task.xmlViewTemplate) &&
                 Objects.equals(rpmLimitation, task.rpmLimitation) &&
                 Objects.equals(variables, task.variables) &&
-                Objects.equals(timeoutInHours, task.timeoutInHours);
+                Objects.equals(timeoutInHours, task.timeoutInHours) &&
+                Objects.equals(testSuiteResultsArchiveStub, task.testSuiteResultsArchiveStub);
     }
 
     @Override
@@ -150,6 +177,8 @@ public class Task implements  Comparable<Task> {
         return Objects.hash(
                 id,
                 script,
+                repository,
+                branch,
                 type,
                 scmPollSchedule,
                 machinePreference,
@@ -160,7 +189,8 @@ public class Task implements  Comparable<Task> {
                 xmlViewTemplate,
                 rpmLimitation,
                 variables,
-                timeoutInHours
+                timeoutInHours,
+                testSuiteResultsArchiveStub
         );
     }
 
