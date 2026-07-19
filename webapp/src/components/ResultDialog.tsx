@@ -8,7 +8,7 @@ import {
     TableRow,
     TableCell,
     TableBody
-} from "@material-ui/core"
+} from "@mui/material"
 import { useObserver } from "mobx-react"
 
 import useStores from "../hooks/useStores"

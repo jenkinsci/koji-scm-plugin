@@ -1,5 +1,5 @@
 import React from "react"
-import { Dialog, DialogTitle, DialogActions, Button } from "@material-ui/core"
+import { Dialog, DialogTitle, DialogActions, Button } from "@mui/material"
 import { useObserver } from "mobx-react"
 
 import useStores from "../hooks/useStores"
@@ -30,7 +30,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = () => {
             closeDialog()
         }
         return (
-            <Dialog onEnter={onEnter} open={dialog.open} onClose={closeDialog}>
+            <Dialog TransitionProps={{ onEnter }} open={dialog.open} onClose={closeDialog}>
                 <DialogTitle>{dialog.label}</DialogTitle>
                 <DialogActions>
                     <Button onClick={onYesClick} ref={yesButton}>

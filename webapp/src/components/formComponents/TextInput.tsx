@@ -1,8 +1,8 @@
 import React from "react"
 import { useObserver } from "mobx-react"
-import { TextField } from "@material-ui/core"
+import { TextField } from "@mui/material"
 import { BasicValidation } from "../../utils/validators"
-import { TextFieldProps } from "@material-ui/core/TextField"
+import { TextFieldProps } from "@mui/material/TextField"
 
 type TextInputPropsRequired = {
     label: string

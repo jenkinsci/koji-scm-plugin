@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import { Limitation, Item, LimitFlag } from "../../stores/model";
 import Select from "./Select";
 import MultiSelect from "./MultiSelect";
-import { FormControl, FormLabel, FormGroup } from "@material-ui/core";
+import { FormControl, FormLabel, FormGroup } from "@mui/material";
 
 interface LimitationProps {
     label: string;

@@ -1,6 +1,6 @@
 import React from "react"
 import { useObserver } from "mobx-react"
-import { Grid } from "@material-ui/core"
+import { Grid } from "@mui/material"
 
 import { PlatformProvider } from "../../stores/model"
 import TextInput from "./TextInput"

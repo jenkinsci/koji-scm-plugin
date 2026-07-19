@@ -1,6 +1,6 @@
 import React from "react"
 import { useObserver } from "mobx-react"
-import { Button, Snackbar, Paper } from "@material-ui/core"
+import { Button, Snackbar, Paper } from "@mui/material"
 
 import { Platform, JDKTestProject, JDKProject, Task } from "../../stores/model"
 import JDKProjectForm from "./JDKProjectForm"

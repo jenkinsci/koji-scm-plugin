@@ -1,7 +1,7 @@
 import React from "react"
 import { useObserver } from "mobx-react"
-import { Tooltip, IconButton, TableRow } from "@material-ui/core"
-import { Add } from "@material-ui/icons"
+import { Tooltip, IconButton, TableRow } from "@mui/material"
+import { Add } from "@mui/icons-material"
 
 import {
     BuildConfigs,

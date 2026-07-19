@@ -10,8 +10,8 @@ import {
     TableCell,
     TableBody,
     TableHead
-} from "@material-ui/core"
-import { Add, Edit } from "@material-ui/icons"
+} from "@mui/material"
+import { Add, Edit } from "@mui/icons-material"
 import useStores from "../hooks/useStores"
 import DeleteButton from "./DeleteButton"
 
@@ -41,14 +41,14 @@ const List: React.FC = () => {
                     alignItems="center"
                     container
                     item
-                    justify="center"
+                    justifyContent="center"
                     xs={12}>
                     <Paper style={{ padding: 20, width: "100%" }}>
                         <Grid
                             alignItems="center"
                             container
                             direction="row"
-                            justify="space-between">
+                            justifyContent="space-between">
                             <Typography variant="h4">
                                 {selectedConfigGroupId}
                             </Typography>

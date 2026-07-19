@@ -1,5 +1,5 @@
 import React from "react"
-import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox } from "@material-ui/core"
+import { FormControl, FormLabel, FormGroup, FormControlLabel, Checkbox } from "@mui/material"
 import { useObserver } from "mobx-react"
 
 type MultiSelectPropsRequired = {

@@ -3,7 +3,7 @@ import { useObserver } from "mobx-react"
 
 import { JobConfig, ProjectType } from "../../stores/model"
 import AddComponent from "./AddComponent"
-import { Table, TableHead, TableRow, TableBody } from "@material-ui/core"
+import { Table, TableHead, TableRow, TableBody } from "@mui/material"
 import useStores from "../../hooks/useStores"
 import PlatformRow from "./PlatformRow"
 import TableCell from "../TableCell"
