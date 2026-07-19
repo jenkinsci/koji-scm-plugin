@@ -1,5 +1,5 @@
 import React from "react"
-import { FormControl, FormLabel, FormGroup } from "@material-ui/core"
+import { FormControl, FormLabel, FormGroup } from "@mui/material"
 import { useObserver } from "mobx-react"
 
 import Checkbox from "./Checkbox"

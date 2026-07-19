@@ -1,5 +1,5 @@
 import React from "react"
-import { FormControl, FormLabel, TextareaAutosize } from "@material-ui/core";
+import { FormControl, FormLabel, TextareaAutosize } from "@mui/material";
 
 type TextAreaPropsOptional = {
     onChange: (value: string) => void

@@ -1,7 +1,7 @@
 import React from "react"
 import { useObserver } from "mobx-react"
-import { FormControl, FormLabel, IconButton } from "@material-ui/core"
-import { Add, } from "@material-ui/icons"
+import { FormControl, FormLabel, IconButton } from "@mui/material"
+import { Add, } from "@mui/icons-material"
 import DeleteButton from "../DeleteButton"
 
 interface FormListProps {

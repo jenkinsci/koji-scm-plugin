@@ -1,6 +1,6 @@
 import React from "react"
-import { IconButton } from "@material-ui/core"
-import { Delete } from "@material-ui/icons"
+import { IconButton } from "@mui/material"
+import { Delete } from "@mui/icons-material"
 
 import useStores from "../hooks/useStores"
 

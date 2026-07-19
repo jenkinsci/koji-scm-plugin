@@ -1,7 +1,7 @@
 import React from "react"
 import { useObserver } from "mobx-react"
 
-import { AppBar, Tabs, Tab, Toolbar } from "@material-ui/core"
+import { AppBar, Tabs, Tab, Toolbar } from "@mui/material"
 import useStores from "../hooks/useStores"
 
 const Header: React.FC = () => {

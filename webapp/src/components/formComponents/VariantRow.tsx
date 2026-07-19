@@ -1,6 +1,6 @@
 import React from "react"
 import { useObserver } from "mobx-react"
-import { TableRow } from "@material-ui/core"
+import { TableRow } from "@mui/material"
 
 import {
     BuildConfigs,

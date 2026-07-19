@@ -5,7 +5,7 @@ import ConfirmDialog from "./components/ConfirmDialog"
 import ResultDialog from "./components/ResultDialog"
 import { useObserver } from "mobx-react"
 
-import { Grid } from "@material-ui/core"
+import { Grid } from "@mui/material"
 import useStores from "./hooks/useStores"
 import List from "./components/List"
 
@@ -30,7 +30,7 @@ const App: React.FC = () => {
     return (
         <React.Fragment>
             <Header />
-            <Grid alignItems="center" container justify="center">
+            <Grid alignItems="center" container justifyContent="center">
                 <Grid item xs={11}>
                     {content}
                 </Grid>

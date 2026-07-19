@@ -1,7 +1,7 @@
 import React from "react"
 
-import { Tooltip, IconButton, Dialog, Button, DialogContent, DialogActions } from "@material-ui/core"
-import { Add, Check } from "@material-ui/icons"
+import { Tooltip, IconButton, Dialog, Button, DialogContent, DialogActions } from "@mui/material"
+import { Add, Check } from "@mui/icons-material"
 
 import { Item } from "../../stores/model"
 
@@ -26,9 +26,7 @@ const AddComponent: React.FC<Props> = ({ items, label, onAdd }) => {
     const dialog = (
         <Dialog
             open={open}
-            disableEscapeKeyDown
-            onEscapeKeyDown={closeDialog}
-            onBackdropClick={closeDialog}
+            onClose={closeDialog}
         >
             <DialogContent dividers>
                 {

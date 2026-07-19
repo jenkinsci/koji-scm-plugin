@@ -1,6 +1,6 @@
 import React from "react"
 import { useObserver } from "mobx-react"
-import { FormControl, FormGroup } from "@material-ui/core"
+import { FormControl, FormGroup } from "@mui/material"
 import { Variable } from "../../stores/model"
 import TextInput from "./TextInput"
 import Checkbox from "./Checkbox"

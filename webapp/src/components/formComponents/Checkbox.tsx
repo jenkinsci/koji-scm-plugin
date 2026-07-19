@@ -1,5 +1,5 @@
 import React from "react"
-import { FormControl, FormControlLabel, Checkbox as CheckboxMaterial } from "@material-ui/core";
+import { FormControl, FormControlLabel, Checkbox as CheckboxMaterial } from "@mui/material";
 
 type CheckboxPropsRequired = {
     label: string
