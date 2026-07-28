@@ -72,11 +72,14 @@ const createDefaultTask = (): Task => ({
     },
     scmPollSchedule: "",
     script: "",
+    repository: "",
+    branch: "",
     type: "TEST",
     xmlTemplate: "",
     xmlViewTemplate: "",
     timeoutInHours: "0",
-    variables: []
+    variables: [],
+    testSuiteResultsArchiveStub: ""
 })
 
 export const createDefaultVariable = (): Variable => ({

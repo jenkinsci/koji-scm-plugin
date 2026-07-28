@@ -763,6 +763,8 @@ public class DataGenerator {
         return new Task(
                 BUILD,
                 "/path/build.sh",
+                "",
+                "",
                 Task.Type.BUILD,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.VM,
@@ -780,7 +782,8 @@ public class DataGenerator {
                         Collections.emptyList()
                 ),
                 Collections.emptyList(),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -788,6 +791,8 @@ public class DataGenerator {
         return new Task(
                 TCK,
                 "/path/test.sh",
+                "git@my.repo",
+                "master",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.VM,
@@ -811,7 +816,8 @@ public class DataGenerator {
                         )
                 ),
                 Collections.emptyList(),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -819,6 +825,8 @@ public class DataGenerator {
         return new Task(
                 TCK,
                 "/path/test.sh",
+                "",
+                "",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.HW,
@@ -836,7 +844,8 @@ public class DataGenerator {
                         Collections.emptyList()
                 ),
                 Collections.emptyList(),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -844,6 +853,8 @@ public class DataGenerator {
         return new Task(
                 JTREG,
                 "/path/test.sh",
+                "",
+                "",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.HW,
@@ -861,7 +872,8 @@ public class DataGenerator {
                         Collections.emptyList()
                 ),
                 Collections.emptyList(),
-                10
+                10,
+                "results.tar.xz"
         );
     }
 
@@ -869,6 +881,8 @@ public class DataGenerator {
         return new Task(
                 TCK,
                 "/path/test.sh",
+                "",
+                "",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.HW,
@@ -886,7 +900,8 @@ public class DataGenerator {
                         Collections.emptyList()
                 ),
                 Collections.emptyList(),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -902,6 +917,8 @@ public class DataGenerator {
         return new Task(
                 LUCENE,
                 "/path/test.sh",
+                "",
+                "",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.HW,
@@ -919,7 +936,8 @@ public class DataGenerator {
                         Collections.emptyList()
                 ),
                 Collections.emptyList(),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -927,6 +945,8 @@ public class DataGenerator {
         return new Task(
                 WILDFLY,
                 "/path/test.sh",
+                "",
+                "",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.HW,
@@ -944,7 +964,8 @@ public class DataGenerator {
                         Collections.emptyList()
                 ),
                 Collections.emptyList(),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -952,6 +973,8 @@ public class DataGenerator {
         return new Task(
                 CHURN,
                 "/path/test.sh",
+                "",
+                "",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.HW,
@@ -969,7 +992,8 @@ public class DataGenerator {
                         Collections.emptyList()
                 ),
                 Collections.emptyList(),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -977,6 +1001,8 @@ public class DataGenerator {
         return new Task(
                 DACAPO,
                 "/path/test.sh",
+                "",
+                "",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.HW,
@@ -994,7 +1020,8 @@ public class DataGenerator {
                         Collections.emptyList()
                 ),
                 Collections.emptyList(),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -1002,6 +1029,8 @@ public class DataGenerator {
         return new Task(
                 TCK_AGENT,
                 "/path/test.sh",
+                "",
+                "",
                 Task.Type.TEST,
                 SCP_POLL_SCHEDULE,
                 Task.MachinePreference.VM,
@@ -1021,7 +1050,8 @@ public class DataGenerator {
                 Arrays.asList(
                         new OToolVariable(AGENT, LINUX)
                 ),
-                0
+                0,
+                "results.tar.xz"
         );
     }
 
@@ -1981,7 +2011,8 @@ public class DataGenerator {
                 //?
                 new File(temporaryFolder, "repos"),
                 new File(temporaryFolder, "jenkinsJobs"),
-                new File(temporaryFolder, "jenkinsJobArchive")
+                new File(temporaryFolder, "jenkinsJobArchive"),
+                new File(temporaryFolder, "jenkinsfilesRoot")
         };
         for (File file: filesToClean) {
             FileUtils.deleteDirectory(file);
@@ -1996,7 +2027,8 @@ public class DataGenerator {
                 filesToClean[3],
                 filesToClean[4],
                 filesToClean[5],
-                filesToClean[2]
+                filesToClean[2],
+                filesToClean[6]
         );
         initConfigsRoot(getSettings(folderHolder));
         return folderHolder;
@@ -2011,12 +2043,14 @@ public class DataGenerator {
         final File reposRoot = Paths.get(rootPath, "repos").toFile();
         final File jenkinsJobsRoot = Paths.get(rootPath, "jenkinsJobs").toFile();
         final File jenkinsJobArchiveRoot = Paths.get(rootPath, "jenkinsJobArchive").toFile();
+        final File jenkinsfilesRoot = Paths.get(rootPath, "jenkinsfilesRoot").toFile();
         Arrays.asList(
                 configsRoot,
                 scriptsRoot,
                 reposRoot,
                 jenkinsJobsRoot,
-                jenkinsJobArchiveRoot
+                jenkinsJobArchiveRoot,
+                jenkinsfilesRoot
         ).forEach(file -> {
             try {
                 FileUtils.deleteDirectory(file);
@@ -2044,7 +2078,8 @@ public class DataGenerator {
                 reposRoot,
                 usedJenkins,
                 jenkinsJobArchiveRoot,
-                configsRoot
+                configsRoot,
+                jenkinsfilesRoot
         );
         initConfigsRoot(getSettings(folderHolder));
         return folderHolder;
@@ -2057,6 +2092,7 @@ public class DataGenerator {
         public final File jenkinsJobsRoot;
         public final File jenkinsJobArchiveRoot;
         public final File configsRoot;
+        public final File jenkinsfilesRoot;
 
         private FolderHolder(
                 File buildsRoot,
@@ -2064,7 +2100,8 @@ public class DataGenerator {
                 File reposRoot,
                 File jenkinsJobsRoot,
                 File jenkinsJobArchiveRoot,
-                File configsRoot
+                File configsRoot,
+                File jenkinsfilesRoot
         ) {
             this.buildsRoot = buildsRoot;
             this.scriptsRoot = scriptsRoot;
@@ -2072,6 +2109,7 @@ public class DataGenerator {
             this.jenkinsJobsRoot = jenkinsJobsRoot;
             this.jenkinsJobArchiveRoot = jenkinsJobArchiveRoot;
             this.configsRoot = configsRoot;
+            this.jenkinsfilesRoot = jenkinsfilesRoot;
         }
     }
 
@@ -2134,6 +2172,7 @@ public class DataGenerator {
                 folderHolder.jenkinsJobsRoot,
                 folderHolder.jenkinsJobArchiveRoot,
                 folderHolder.scriptsRoot,
+                folderHolder.jenkinsfilesRoot,
                 new URL(JENKINS_URL),
                 getNullableString("jenkins.test.ssh.host"),
                 getNullableInt("jenkins.test.ssh.port"),
