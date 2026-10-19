@@ -360,6 +360,11 @@ public class JenkinsJobUpdaterTest {
         }
 
         @Override
+        public String generateJenkinsfile() throws IOException {
+            return "// dummyJob for" + getName();
+        }
+
+        @Override
         public String getName() {
             return name;
         }
