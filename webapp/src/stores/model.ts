@@ -67,6 +67,8 @@ export type BuildConfigs = {
 
 export interface Task extends Item {
     script: string;
+    repository: string;
+    branch: string;
     type: TaskType;
     scmPollSchedule: string;
     machinePreference: MachinePreference;
@@ -77,7 +79,8 @@ export interface Task extends Item {
     xmlViewTemplate: string;
     rpmLimitation: RPMLimitation;
     timeoutInHours: string;
-    variables: Variable[]
+    variables: Variable[];
+    testSuiteResultsArchiveStub: string;
 }
 
 export type TaskType = "BUILD" | "TEST"

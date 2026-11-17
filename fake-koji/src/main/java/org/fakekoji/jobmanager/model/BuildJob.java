@@ -42,6 +42,10 @@ public class BuildJob extends TaskJob {
     }
 
     @Override
+    public String generateJenkinsfile() throws IOException {
+        return "// buildJob not yet implemented";
+    }
+    @Override
     public String generateTemplate() throws IOException {
 
         // TODO: do this better

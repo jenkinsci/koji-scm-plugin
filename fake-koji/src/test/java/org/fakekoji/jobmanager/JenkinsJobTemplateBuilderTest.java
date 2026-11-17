@@ -1197,4 +1197,28 @@ public class JenkinsJobTemplateBuilderTest {
                 v1.getVariableString(XML_NEW_LINE)
         );
     }
+
+    @Test
+    public void testVariableSingleLine() throws IOException {
+        OToolVariable v1 = new OToolVariable("myVar1", "myVal1", "comment1", true, false, true);
+        OToolVariable v2 = new OToolVariable("myVar2", "myVal2", "comment2", true, true, true);
+        Assertions.assertEquals(
+                "export OTOOL_myVar1=\"myVal1\" # comment1" + XML_NEW_LINE,
+                v1.getVariableString(XML_NEW_LINE)
+        );
+
+        Assertions.assertEquals(
+                "#export OTOOL_myVar2=\"myVal2\" # comment2" + XML_NEW_LINE,
+                v2.getVariableString(XML_NEW_LINE)
+        );
+
+        Assertions.assertEquals(
+                "export OTOOL_myVar1=\"myVal1\";",
+                v1.getVariableString(null)
+        );
+        Assertions.assertEquals(
+                "",
+                v2.getVariableString(null)
+        );
+    }
 }

@@ -137,6 +137,7 @@ public class JavaServer {
                 getRoot(props, Property.JENKINS_JOBS_ROOT),
                 getRoot(props, Property.JENKINS_JOB_ARCHIVE_ROOT),
                 getRoot(props, Property.SCRIPTS_ROOT),
+                getRoot(props, Property.JENKINSFILES_ROOT),
                 parseUrl(props, Property.JENKINS_URL),
                 getNullableString(props, Property.JENKINS_SSH_HOST),
                 getNullableInt(props, Property.JENKINS_SSH_PORT),
@@ -182,6 +183,7 @@ public class JavaServer {
         JENKINS_JOB_ARCHIVE_ROOT("root.jenkins.job.archive"),
         CONFIGS_ROOT("root.configs"),
         SCRIPTS_ROOT("root.scripts"),
+        JENKINSFILES_ROOT("root.jenkinsfiles"),
         REPORT_EXEC_DEFAULTPARAMS("report.exec.defaultparams"),
         REPORT_EXEC_DEFAULTCHARTPARAM("Sreport.exec.defaultchartparams");
 
